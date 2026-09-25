@@ -37,6 +37,25 @@ public class AmountToWordsTests
             expected,
             AmountToWords.Convert(Parse(amount), Currency.Bgn));
 
+    [Theory]
+    [InlineData("167.42", "BGN", "сто шестдесет и седем лева и 42 стотинки")]
+    [InlineData("0.01", "BGN", "нула лева и 1 стотинка")]
+    [InlineData("21.21", "BGN", "двадесет и един лева и 21 стотинки")]
+    [InlineData("1.05", "EUR", "едно евро и 5 цента")]
+    [InlineData("1.01", "EUR", "едно евро и 1 цент")]
+    [InlineData("5", "EUR", "пет евро")]
+    [InlineData("-0.50", "EUR", "минус нула евро и 50 цента")]
+    public void Convert_SubunitsAsDigits(
+        string amount,
+        string currencyCode,
+        string expected)
+        => Assert.Equal(
+            expected,
+            AmountToWords.Convert(
+                Parse(amount),
+                CurrencyFrom(currencyCode),
+                subunitsAsDigits: true));
+
     [Fact]
     public void Convert_Negative_PrefixesMinus()
         => Assert.Equal(
@@ -55,4 +74,15 @@ public class AmountToWordsTests
 
     private static decimal Parse(string value)
         => decimal.Parse(value, CultureInfo.InvariantCulture);
+
+    private static Currency CurrencyFrom(string code)
+        => code switch
+        {
+            "BGN" => Currency.Bgn,
+            "EUR" => Currency.Eur,
+            _ => throw new ArgumentOutOfRangeException(
+                nameof(code),
+                code,
+                "Unknown currency code in test data."),
+        };
 }

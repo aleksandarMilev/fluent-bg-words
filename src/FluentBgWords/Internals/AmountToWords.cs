@@ -1,6 +1,7 @@
 ﻿namespace FluentBgWords.Internals;
 
 using FluentBgWords;
+using System.Globalization;
 
 internal static class AmountToWords
 {
@@ -8,7 +9,8 @@ internal static class AmountToWords
 
     public static string Convert(
         decimal amount,
-        Currency currency)
+        Currency currency,
+        bool subunitsAsDigits = false)
     {
         ArgumentNullException.ThrowIfNull(currency);
 
@@ -34,7 +36,11 @@ internal static class AmountToWords
 
         if (minor > 0)
         {
-            result += $" и {NumberToWords.Convert(minor, currency.Minor.Gender)} {currency.Minor.FormFor(minor)}";
+            var minorText = subunitsAsDigits
+                ? minor.ToString(CultureInfo.InvariantCulture)
+                : NumberToWords.Convert(minor, currency.Minor.Gender);
+
+            result += $" и {minorText} {currency.Minor.FormFor(minor)}";
         }
 
         return prefix + result;
