@@ -19,6 +19,8 @@
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<EnablePackageValidation Condition="'$(Version.StartsWith(`0.0.0-`))' != 'true'">true</EnablePackageValidation>
+		<PackageValidationBaselineVersion>0.1.1</PackageValidationBaselineVersion>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
