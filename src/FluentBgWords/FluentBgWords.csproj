@@ -12,6 +12,9 @@
 		<PackageTags>bulgarian;slovom;словом;number-to-words;amount-in-words;invoice;euro;leva</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Copyright>Copyright (c) 2026 Aleksandar Milev</Copyright>
+		<PackageProjectUrl>https://github.com/aleksandarMilev/fluent-bg-words</PackageProjectUrl>
+		<PackageReleaseNotes>See https://github.com/aleksandarMilev/fluent-bg-words/blob/master/CHANGELOG.md</PackageReleaseNotes>
 		<RepositoryUrl>https://github.com/aleksandarMilev/fluent-bg-words</RepositoryUrl>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>true</IncludeSymbols>
