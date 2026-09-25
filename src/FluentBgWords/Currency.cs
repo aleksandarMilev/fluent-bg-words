@@ -1,4 +1,6 @@
-﻿namespace FluentBgWords;
+﻿using FluentBgWords.Internals;
+
+namespace FluentBgWords;
 
 /// <summary>
 /// A currency: a major unit (лев, евро), a minor unit (стотинка, цент) and their abbreviations.
@@ -39,4 +41,46 @@ public sealed record Currency(
         new Unit("евроцент", "евроцента", Gender.Masculine),
         "е.",
         "е.ц.");
+
+    private readonly Unit major = Guard.NotNull(Major, nameof(Major));
+
+    private readonly Unit minor = Guard.NotNull(Minor, nameof(Minor));
+
+    private readonly string majorAbbreviation = Guard.Text(MajorAbbreviation, nameof(MajorAbbreviation));
+
+    private readonly string minorAbbreviation = Guard.Text(MinorAbbreviation, nameof(MinorAbbreviation));
+
+    /// <summary>The main unit, e.g. "лев" or "евро".</summary>
+    /// <exception cref="ArgumentNullException">The value is null.</exception>
+    public Unit Major
+    {
+        get => this.major;
+        init => this.major = Guard.NotNull(value, nameof(Major));
+    }
+
+    /// <summary>The subunit (1/100 of the major unit), e.g. "стотинка" or "цент".</summary>
+    /// <exception cref="ArgumentNullException">The value is null.</exception>
+    public Unit Minor
+    {
+        get => this.minor;
+        init => this.minor = Guard.NotNull(value, nameof(Minor));
+    }
+
+    /// <summary>Short form of the major unit, e.g. "лв." or "€".</summary>
+    /// <exception cref="ArgumentNullException">The value is null.</exception>
+    /// <exception cref="ArgumentException">The value is empty, whitespace, or has leading or trailing whitespace.</exception>
+    public string MajorAbbreviation
+    {
+        get => this.majorAbbreviation;
+        init => this.majorAbbreviation = Guard.Text(value, nameof(MajorAbbreviation));
+    }
+
+    /// <summary>Short form of the minor unit, e.g. "ст." or "ц.".</summary>
+    /// <exception cref="ArgumentNullException">The value is null.</exception>
+    /// <exception cref="ArgumentException">The value is empty, whitespace, or has leading or trailing whitespace.</exception>
+    public string MinorAbbreviation
+    {
+        get => this.minorAbbreviation;
+        init => this.minorAbbreviation = Guard.Text(value, nameof(MinorAbbreviation));
+    }
 }
