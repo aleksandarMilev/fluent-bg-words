@@ -1,4 +1,5 @@
-﻿using FluentBgWords.Internal;
+﻿using FluentBgWords.Internals;
+using FluentBgWords.Publics;
 
 namespace FluentBgWords.Tests;
 

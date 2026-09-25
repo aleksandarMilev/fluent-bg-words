@@ -1,4 +1,6 @@
-﻿namespace FluentBgWords.Internal;
+﻿namespace FluentBgWords.Internals;
+
+using Publics;
 
 internal static class NumberToWords
 {
@@ -23,12 +25,32 @@ internal static class NumberToWords
 
     private static readonly Scale[] Scales =
     [
-        new(1_000_000_000, Gender.Masculine, "милиард", "милиарда", OmitOne: false),
-        new(1_000_000,     Gender.Masculine, "милион",  "милиона",  OmitOne: false),
-        new(1_000,         Gender.Feminine,  "хиляда",  "хиляди",   OmitOne: true),
+        // billions
+        new(
+            1_000_000_000,
+            Gender.Masculine,
+            "милиард",
+            "милиарда",
+            OmitOne: false),
+        //millions
+        new(
+            1_000_000,
+            Gender.Masculine,
+            "милион",
+            "милиона",
+            OmitOne: false),
+        // thousands
+        new(
+            1_000,
+            Gender.Feminine, 
+            "хиляда",
+            "хиляди",
+            OmitOne: true),
     ];
 
-    public static string Convert(long number, Gender gender = Gender.Masculine)
+    public static string Convert(
+        long number,
+        Gender gender = Gender.Masculine)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThan(number, MaxValue);
         ArgumentOutOfRangeException.ThrowIfLessThan(number, -MaxValue);
@@ -47,23 +69,27 @@ internal static class NumberToWords
 
         foreach (var scale in Scales)
         {
-            var value = (int)(number / scale.Divisor % 1000);
+            var value = (int)(number / scale.Divisor % 1_000);
             if (value > 0)
             {
-                groups.Add(BuildScaleGroup(value, scale));
+                var scaleGroup = BuildScaleGroup(value, scale);
+                groups.Add(scaleGroup);
             }
         }
 
-        var units = (int)(number % 1000);
+        var units = (int)(number % 1_000);
         if (units > 0)
         {
-            groups.Add(BuildGroup(units, gender));
+            var group = BuildGroup(units, gender);
+            groups.Add(group);
         }
 
         return Join(groups);
     }
 
-    private static Group BuildScaleGroup(int value, Scale scale)
+    private static Group BuildScaleGroup(
+        int value,
+        Scale scale)
     {
         if (value == 1 && scale.OmitOne)
         {
@@ -71,12 +97,16 @@ internal static class NumberToWords
         }
 
         var group = BuildGroup(value, scale.Gender);
-        group.Words.Add(value == 1 ? scale.Singular : scale.Plural);
+        group
+            .Words
+            .Add(value == 1 ? scale.Singular : scale.Plural);
 
         return group;
     }
 
-    private static Group BuildGroup(int value, Gender gender)
+    private static Group BuildGroup(
+        int value,
+        Gender gender)
     {
         var words = Numerals(value, gender);
         var numeralWordCount = words.Count;
@@ -89,7 +119,9 @@ internal static class NumberToWords
         return new(words, numeralWordCount);
     }
 
-    private static List<string> Numerals(int value, Gender gender)
+    private static List<string> Numerals(
+        int value,
+        Gender gender)
     {
         var words = new List<string>(3);
         var hundreds = value / 100;
@@ -138,8 +170,12 @@ internal static class NumberToWords
         for (var i = 0; i < groups.Count; i++)
         {
             var isLast = i == groups.Count - 1;
+            var shouldBeAdded =
+                isLast &&
+                groups.Count > 1
+                && groups[i].NumeralWordCount <= 1;
 
-            if (isLast && groups.Count > 1 && groups[i].NumeralWordCount <= 1)
+            if (shouldBeAdded)
             {
                 words.Add(And);
             }
@@ -149,6 +185,4 @@ internal static class NumberToWords
 
         return string.Join(' ', words);
     }
-
-
 }
