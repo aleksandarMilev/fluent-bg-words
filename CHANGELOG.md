@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-09-25
+
 ### Added
 
 - README: the validation rules for custom currencies, and how to handle nullable amounts
@@ -25,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
   Before, these values produced malformed text (extra spaces), a `NullReferenceException`
   from `ToString()`, or silently used the neuter forms.
+
 - The package description now says what the library does: it writes monetary amounts, not
   arbitrary numbers.
 
@@ -58,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Formatting options: `WithSubunitsAsDigits()`, `Abbreviated()` and `Capitalized()`.
 - Targets `net8.0` and `net10.0`.
 
-[Unreleased]: https://github.com/aleksandarMilev/fluent-bg-words/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/aleksandarMilev/fluent-bg-words/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/aleksandarMilev/fluent-bg-words/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/aleksandarMilev/fluent-bg-words/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/aleksandarMilev/fluent-bg-words/releases/tag/v0.1.0
