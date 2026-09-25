@@ -1,6 +1,6 @@
-﻿using FluentBgWords.Internals;
+﻿namespace FluentBgWords;
 
-namespace FluentBgWords;
+using FluentBgWords.Internals;
 
 /// <summary>
 /// A currency: a major unit (лев, евро), a minor unit (стотинка, цент) and their abbreviations.

@@ -1,6 +1,6 @@
-﻿using FluentBgWords.Internals;
+﻿namespace FluentBgWords;
 
-namespace FluentBgWords;
+using FluentBgWords.Internals;
 
 /// <summary>
 /// A currency unit that follows the amount, e.g. "лев", "стотинка", "евро" or "цент".
@@ -36,7 +36,7 @@ public sealed record Unit(
         get => this.singular;
         init => this.singular = Guard.AgainstLeadingOrTrailingWhitespace(
             value,
-            nameof(Singular));
+            nameof(this.Singular));
     }
 
     /// <summary>Form used for any other amount, including 21, 101, etc.: "лева", "стотинки", "евро".</summary>
@@ -47,7 +47,7 @@ public sealed record Unit(
         get => this.countForm;
         init => this.countForm = Guard.AgainstLeadingOrTrailingWhitespace(
             value,
-            nameof(CountForm));
+            nameof(this.CountForm));
     }
 
     /// <summary>Grammatical gender; decides "един/една/едно" and "два/две".</summary>
@@ -57,9 +57,9 @@ public sealed record Unit(
         get => this.gender;
         init => this.gender = Guard.AgainstUndefinedEnum(
             value,
-            nameof(Gender));
+            nameof(this.Gender));
     }
 
     internal string FormFor(long count)
-        => count == 1 ? Singular : CountForm;
+        => count == 1 ? this.Singular : this.CountForm;
 }

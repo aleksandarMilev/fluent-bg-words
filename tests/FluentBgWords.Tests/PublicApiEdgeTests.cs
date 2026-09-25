@@ -1,6 +1,6 @@
-﻿using System.Globalization;
+﻿namespace FluentBgWords.Tests;
 
-namespace FluentBgWords.Tests;
+using System.Globalization;
 
 public class PublicApiEdgeTests
 {

@@ -1,6 +1,6 @@
-﻿using FluentBgWords.Internals;
+﻿namespace FluentBgWords;
 
-namespace FluentBgWords;
+using FluentBgWords.Internals;
 
 /// <summary>
 /// An amount configured for writing in Bulgarian words. Immutable: every method
@@ -22,23 +22,23 @@ public readonly record struct AmountInWords
 
     /// <summary>Writes the amount in Bulgarian leva (BGN): "два лева и една стотинка".</summary>
     public AmountInWords AsBgn()
-        => this with 
-        { 
+        => this with
+        {
             SelectedCurrency = Currency.Bgn
         };
 
     /// <summary>Writes the amount in euro (EUR): "две евро и един цент". This is the default.</summary>
     public AmountInWords AsEur()
         => this with
-        { 
-            SelectedCurrency = Currency.Eur 
+        {
+            SelectedCurrency = Currency.Eur
         };
 
     /// <summary>Writes the amount in euro with "евроцент" as the subunit: "пет евро и два евроцента".</summary>
     public AmountInWords AsEurWithEurocents()
-        => this with 
-        { 
-            SelectedCurrency = Currency.EurWithEurocents 
+        => this with
+        {
+            SelectedCurrency = Currency.EurWithEurocents
         };
 
     /// <summary>Writes the amount in a custom currency.</summary>
@@ -47,37 +47,37 @@ public readonly record struct AmountInWords
     public AmountInWords As(Currency currency)
     {
         ArgumentNullException.ThrowIfNull(currency);
-        return this with 
-        { 
-            SelectedCurrency = currency 
+        return this with
+        {
+            SelectedCurrency = currency
         };
     }
 
     /// <summary>Writes the subunits as digits: "пет лева и 42 стотинки".</summary>
     public AmountInWords WithSubunitsAsDigits()
-        => this with 
-        { 
-            Format = Format with
-            { 
-                SubunitsAsDigits = true 
+        => this with
+        {
+            Format = this.Format with
+            {
+                SubunitsAsDigits = true
             }
         };
 
     /// <summary>Capitalizes the first letter: "Пет лева".</summary>
     public AmountInWords Capitalized()
         => this with
-        { 
+        {
             IsCapitalized = true
         };
 
     /// <summary>Uses the currency abbreviations: "пет лв. и четиридесет и две ст.".</summary>
     public AmountInWords Abbreviated()
-        => this with 
-        { 
-            Format = Format with 
-            { 
-                Abbreviated = true 
-            } 
+        => this with
+        {
+            Format = this.Format with
+            {
+                Abbreviated = true
+            }
         };
 
     /// <summary>Returns the amount written in Bulgarian words.</summary>
