@@ -1,4 +1,4 @@
-﻿namespace FluentBgWords;
+﻿namespace FluentBgWords.Internal;
 
 internal sealed record Scale(
     long Divisor,
