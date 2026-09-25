@@ -44,6 +44,26 @@ public class ReadmeExamplesTests
             "пет лв. и четиридесет и две ст.",
             5.42m.InWords().AsBgn().Abbreviated().ToString());
 
+    // README: "Behavior", nullable amounts
+    [Fact]
+    public void InWords_NullAmount_ReturnsNull()
+    {
+        decimal? amount = null;
+
+        Assert.Null(amount?.InWords().AsBgn().ToString());
+    }
+
+    // README: "Behavior", nullable amounts
+    [Fact]
+    public void InWords_NullableAmountWithValue_WritesWords()
+    {
+        decimal? amount = 5m;
+
+        Assert.Equal(
+            "пет лева",
+            amount?.InWords().AsBgn().ToString());
+    }
+
     // README: "API" table, Capitalized() row
     [Fact]
     public void Capitalized_ApiTableExample_UppercasesFirstLetter()
