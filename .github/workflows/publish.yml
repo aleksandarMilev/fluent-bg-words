@@ -3,6 +3,7 @@ name: Publish
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
 
 jobs:
   publish:
@@ -23,6 +24,7 @@ jobs:
           global-json-file: global.json
 
       - name: Version from tag
+        if: github.event_name == 'push'
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
           if [[ ! "$VERSION" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$ ]]; then
@@ -32,11 +34,27 @@ jobs:
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
 
       - name: Check that the tag is on master
+        if: github.event_name == 'push'
         run: |
           if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/master; then
             echo "::error::Tag '$GITHUB_REF_NAME' points to $GITHUB_SHA, which is not on origin/master. Create release tags on master only."
             exit 1
           fi
+
+      - name: Dry-run version from the latest release tag
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          if ! LATEST_TAG="$(git describe --tags --abbrev=0 --match 'v*' 2>/dev/null)"; then
+            echo "::error::No v* release tag is reachable from $GITHUB_SHA. A dry run derives its version from the latest release tag."
+            exit 1
+          fi
+          if [[ ! "$LATEST_TAG" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)(-.*)?$ ]]; then
+            echo "::error::Latest release tag '$LATEST_TAG' is not v<major>.<minor>.<patch>; cannot derive a dry-run version."
+            exit 1
+          fi
+          VERSION="${BASH_REMATCH[1]}.${BASH_REMATCH[2]}.$((BASH_REMATCH[3] + 1))-dryrun.$GITHUB_RUN_NUMBER"
+          echo "Dry run of $VERSION (latest release tag: $LATEST_TAG)"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
 
       - name: Restore
         run: dotnet restore
@@ -50,11 +68,23 @@ jobs:
       - name: Pack
         run: dotnet pack src/FluentBgWords -c Release --no-build -o artifacts -p:Version=$VERSION
 
+      - name: Upload dry-run packages
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v7
+        with:
+          name: FluentBgWords-${{ env.VERSION }}
+          path: |
+            artifacts/*.nupkg
+            artifacts/*.snupkg
+          if-no-files-found: error
+
       - name: NuGet login (OIDC → temporary API key)
+        if: github.event_name == 'push'
         uses: NuGet/login@v1
         id: login
         with:
           user: ${{ secrets.NUGET_USER }}
 
       - name: Push to NuGet
+        if: github.event_name == 'push'
         run: dotnet nuget push "artifacts/*.nupkg" --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
