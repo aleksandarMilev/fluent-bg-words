@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/FluentBgWords/FluentBgWords.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/FluentBgWords.Tests/FluentBgWords.Tests.csproj" />
+  </Folder>
+</Solution>
