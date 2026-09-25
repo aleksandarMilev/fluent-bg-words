@@ -20,10 +20,23 @@ public sealed record Currency(
         "лв.",
         "ст.");
 
-    /// <summary>Euro (EUR), Bulgaria's currency since 1 January 2026.</summary>
+    /// <summary>
+    /// Euro (EUR) with "цент" as the subunit, as defined in art. 4 of the Euro Introduction Act.
+    /// Abbreviations follow the official guidance: "е." and "ц.".
+    /// </summary>
     public static readonly Currency Eur = new(
         new Unit("евро", "евро", Gender.Neuter),
         new Unit("цент", "цента", Gender.Masculine),
-        "€",
+        "е.",
         "ц.");
+
+    /// <summary>
+    /// Euro (EUR) with "евроцент" as the subunit, the form common on invoices.
+    /// Abbreviations follow the official guidance: "е." and "е.ц.".
+    /// </summary>
+    public static readonly Currency EurWithEurocents = new(
+        new Unit("евро", "евро", Gender.Neuter),
+        new Unit("евроцент", "евроцента", Gender.Masculine),
+        "е.",
+        "е.ц.");
 }

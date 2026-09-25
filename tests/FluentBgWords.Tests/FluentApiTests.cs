@@ -76,4 +76,10 @@ public class FluentApiTests
         => Assert.Equal(
             "два милиарда евро",
             2_000_000_000L.InWords().ToString());
+
+    [Fact]
+    public void AsEurWithEurocents_AbbreviatedInvoiceFormat()
+    => Assert.Equal(
+        "Едно е. и 5 е.ц.",
+        1.05m.InWords().AsEurWithEurocents().WithSubunitsAsDigits().Abbreviated().Capitalized().ToString());
 }

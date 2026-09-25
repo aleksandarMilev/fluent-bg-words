@@ -34,6 +34,13 @@ public readonly record struct AmountInWords
             SelectedCurrency = Currency.Eur 
         };
 
+    /// <summary>Writes the amount in euro with "евроцент" as the subunit: "пет евро и два евроцента".</summary>
+    public AmountInWords AsEurWithEurocents()
+        => this with 
+        { 
+            SelectedCurrency = Currency.EurWithEurocents 
+        };
+
     /// <summary>Writes the amount in a custom currency.</summary>
     /// <param name="currency">The currency to use.</param>
     public AmountInWords As(Currency currency)

@@ -74,6 +74,30 @@ public class AmountToWordsTests
                     SubunitsAsDigits: subunitsAsDigits,
                     Abbreviated: true)));
 
+    [Theory]
+    [InlineData("5", false, "пет е.")]
+    [InlineData("167.42", false, "сто шестдесет и седем е. и четиридесет и два ц.")]
+    [InlineData("167.42", true, "сто шестдесет и седем е. и 42 ц.")]
+    public void Convert_Abbreviated_Eur(
+        string amount,
+        bool subunitsAsDigits,
+        string expected)
+        => Assert.Equal(
+            expected,
+            AmountToWords.Convert(
+                Parse(amount),
+                Currency.Eur,
+                new AmountFormat(
+                    SubunitsAsDigits: subunitsAsDigits,
+                    Abbreviated: true)));
+
+    [Theory]
+    [InlineData("0.01", "нула евро и един евроцент")]
+    [InlineData("2.02", "две евро и два евроцента")]
+    [InlineData("1234.56", "хиляда двеста тридесет и четири евро и петдесет и шест евроцента")]
+    public void Convert_EurWithEurocents(string amount, string expected)
+        => Assert.Equal(expected, AmountToWords.Convert(Parse(amount), Currency.EurWithEurocents));
+
     [Fact]
     public void Convert_Negative_PrefixesMinus()
         => Assert.Equal(
