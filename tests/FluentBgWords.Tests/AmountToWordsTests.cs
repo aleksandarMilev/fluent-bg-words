@@ -54,7 +54,7 @@ public class AmountToWordsTests
             AmountToWords.Convert(
                 Parse(amount),
                 CurrencyFrom(currencyCode),
-                subunitsAsDigits: true));
+                new AmountFormat(SubunitsAsDigits: true)));
 
     [Fact]
     public void Convert_Negative_PrefixesMinus()

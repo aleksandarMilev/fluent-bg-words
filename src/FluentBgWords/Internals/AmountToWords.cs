@@ -10,7 +10,7 @@ internal static class AmountToWords
     public static string Convert(
         decimal amount,
         Currency currency,
-        bool subunitsAsDigits = false)
+        AmountFormat format = default)
     {
         ArgumentNullException.ThrowIfNull(currency);
 
@@ -32,15 +32,23 @@ internal static class AmountToWords
         var major = (long)decimal.Truncate(amount);
         var minor = (int)((amount - major) * 100);
 
-        var result = $"{NumberToWords.Convert(major, currency.Major.Gender)} {currency.Major.FormFor(major)}";
+        var majorUnit = format.Abbreviated
+                ? currency.MajorAbbreviation
+                : currency.Major.FormFor(major);
+
+        var result = $"{NumberToWords.Convert(major, currency.Major.Gender)} {majorUnit}";
 
         if (minor > 0)
         {
-            var minorText = subunitsAsDigits
+            var minorText = format.SubunitsAsDigits
                 ? minor.ToString(CultureInfo.InvariantCulture)
                 : NumberToWords.Convert(minor, currency.Minor.Gender);
 
-            result += $" и {minorText} {currency.Minor.FormFor(minor)}";
+            var minorUnit = format.Abbreviated
+                ? currency.MinorAbbreviation
+                : currency.Minor.FormFor(minor);
+
+            result += $" и {minorText} {minorUnit}";
         }
 
         return prefix + result;

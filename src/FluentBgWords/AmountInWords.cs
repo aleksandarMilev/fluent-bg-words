@@ -16,7 +16,7 @@ public readonly record struct AmountInWords
 
     private Currency? SelectedCurrency { get; init; }
 
-    private bool SubunitsAsDigits { get; init; }
+    private AmountFormat Format { get; init; }
 
     private bool IsCapitalized { get; init; }
 
@@ -46,10 +46,13 @@ public readonly record struct AmountInWords
     }
 
     /// <summary>Writes the subunits as digits: "пет лева и 42 стотинки".</summary>
-    public AmountInWords WithSubunitsAsDigits() 
+    public AmountInWords WithSubunitsAsDigits()
         => this with 
         { 
-            SubunitsAsDigits = true 
+            Format = Format with
+            { 
+                SubunitsAsDigits = true 
+            }
         };
 
     /// <summary>Capitalizes the first letter: "Пет лева".</summary>
@@ -66,7 +69,7 @@ public readonly record struct AmountInWords
     {
         var text = AmountToWords.Convert(
             this.Amount,
-            this.SelectedCurrency ?? Currency.Eur, SubunitsAsDigits);
+            this.SelectedCurrency ?? Currency.Eur, this.Format);
 
         return this.IsCapitalized
             ? char.ToUpperInvariant(text[0]) + text[1..]
