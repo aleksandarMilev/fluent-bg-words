@@ -49,8 +49,9 @@ using FluentBgWords;
 | `Abbreviated()`          | Currency abbreviations                                        | `пет лв. и 42 ст.`         |
 | `Capitalized()`          | Capitalizes the first letter                                  | `Пет лева`                 |
 
-The builder is **immutable**: every method returns a new instance, so configurations can be
-shared and reused safely.
+The builder is **immutable**: every method returns a new instance, so a partially configured
+amount can be branched safely. For example, build `.AsBgn()` once and derive `.Abbreviated()`
+and `.Capitalized()` variants from it without affecting each other.
 
 ### Custom currencies
 

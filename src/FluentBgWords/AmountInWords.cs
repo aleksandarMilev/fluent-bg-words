@@ -4,7 +4,7 @@ namespace FluentBgWords;
 
 /// <summary>
 /// An amount configured for writing in Bulgarian words. Immutable: every method
-/// returns a new instance, so configurations can be safely shared and reused.
+/// returns a new instance, so a partially configured amount can be branched safely.
 /// Call <see cref="ToString"/> to get the text.
 /// </summary>
 public readonly record struct AmountInWords
