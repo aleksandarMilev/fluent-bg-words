@@ -1,9 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<AnalysisLevel>latest-recommended</AnalysisLevel>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+	<PropertyGroup>
+		<PackageId>FluentBgWords</PackageId>
+		<Version>0.1.0</Version>
+		<Authors>Aleksandar Milev</Authors>
+		<Description>Fluent API for writing amounts and numbers in Bulgarian words (сума словом) - EUR/BGN, grammatical gender, invoice formats.</Description>
+		<PackageTags>bulgarian;slovom;словом;number-to-words;amount-in-words;invoice;euro;leva</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/aleksandarMilev/fluent-bg-words</RepositoryUrl>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
+		<InternalsVisibleTo Include="FluentBgWords.Tests" />
+	</ItemGroup>
 </Project>
