@@ -6,7 +6,7 @@
 	</PropertyGroup>
 	<PropertyGroup>
 		<PackageId>FluentBgWords</PackageId>
-		<Version>0.1.0</Version>
+		<Version>0.0.0-dev</Version>
 		<Authors>Aleksandar Milev</Authors>
 		<Description>Fluent API for writing monetary amounts in Bulgarian words (сума словом) - EUR/BGN, grammatical gender, invoice formats.</Description>
 		<PackageTags>bulgarian;slovom;словом;number-to-words;amount-in-words;invoice;euro;leva</PackageTags>

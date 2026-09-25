@@ -14,6 +14,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-dotnet@v6
         with:
@@ -21,13 +23,32 @@ jobs:
           global-json-file: global.json
 
       - name: Version from tag
-        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          if [[ ! "$VERSION" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$ ]]; then
+            echo "::error::Tag '$GITHUB_REF_NAME' is not a release tag. Expected v<major>.<minor>.<patch> with an optional prerelease suffix, e.g. v1.2.3 or v1.2.3-beta.1."
+            exit 1
+          fi
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
+      - name: Check that the tag is on master
+        run: |
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/master; then
+            echo "::error::Tag '$GITHUB_REF_NAME' points to $GITHUB_SHA, which is not on origin/master. Create release tags on master only."
+            exit 1
+          fi
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c Release --no-restore -p:Version=$VERSION
 
       - name: Test
-        run: dotnet test -c Release
+        run: dotnet test -c Release --no-build
 
       - name: Pack
-        run: dotnet pack src/FluentBgWords -c Release -o artifacts -p:Version=$VERSION
+        run: dotnet pack src/FluentBgWords -c Release --no-build -o artifacts -p:Version=$VERSION
 
       - name: NuGet login (OIDC → temporary API key)
         uses: NuGet/login@v1
@@ -36,4 +57,4 @@ jobs:
           user: ${{ secrets.NUGET_USER }}
 
       - name: Push to NuGet
-        run: dotnet nuget push "artifacts/*.nupkg" --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push "artifacts/*.nupkg" --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
