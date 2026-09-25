@@ -1,5 +1,5 @@
 ﻿namespace FluentBgWords.Internals;
 
 internal sealed record Group(
-    IList<string> Words,
+    IReadOnlyList<string> Words,
     int NumeralWordCount);

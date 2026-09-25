@@ -97,17 +97,16 @@ internal static class NumberToWords
             return new([scale.Singular], NumeralWordCount: 0);
         }
 
-        var group = BuildGroup(value, scale.Gender);
-        group
-            .Words
-            .Add(value == 1 ? scale.Singular : scale.Plural);
-
-        return group;
+        return BuildGroup(
+            value,
+            scale.Gender,
+            value == 1 ? scale.Singular : scale.Plural);
     }
 
     private static Group BuildGroup(
         int value,
-        Gender gender)
+        Gender gender,
+        string? scaleWord = null)
     {
         var words = Numerals(value, gender);
         var numeralWordCount = words.Count;
@@ -115,6 +114,11 @@ internal static class NumberToWords
         if (words.Count >= 2)
         {
             words.Insert(words.Count - 1, And);
+        }
+
+        if (scaleWord is not null)
+        {
+            words.Add(scaleWord);
         }
 
         return new(words, numeralWordCount);
