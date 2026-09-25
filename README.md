@@ -13,7 +13,7 @@ for legacy data, with correct grammatical gender and count forms.
 dotnet add package FluentBgWords
 ```
 
-Targets `net10.0` and `netstandard2.0` (works on .NET Framework 4.6.1+ and all modern .NET).
+Targets `net8.0` and `net10.0`.
 
 ## Quick start
 
@@ -38,16 +38,16 @@ using FluentBgWords;
 
 ## API
 
-| Method | Effect | Example output |
-|---|---|---|
-| `InWords()` | Starts the chain (`decimal`, `int`, `long`). Defaults to EUR. | `пет евро` |
-| `AsEur()` | Euro with "цент" | `две евро и два цента` |
-| `AsEurWithEurocents()` | Euro with "евроцент" | `две евро и два евроцента` |
-| `AsBgn()` | Bulgarian leva | `два лева и две стотинки` |
-| `As(Currency)` | Custom currency | `два долара и един цент` |
-| `WithSubunitsAsDigits()` | Subunits as digits | `пет лева и 42 стотинки` |
-| `Abbreviated()` | Currency abbreviations | `пет лв. и 42 ст.` |
-| `Capitalized()` | Capitalizes the first letter | `Пет лева` |
+| Method                   | Effect                                                        | Example output             |
+| ------------------------ | ------------------------------------------------------------- | -------------------------- |
+| `InWords()`              | Starts the chain (`decimal`, `int`, `long`). Defaults to EUR. | `пет евро`                 |
+| `AsEur()`                | Euro with "цент"                                              | `две евро и два цента`     |
+| `AsEurWithEurocents()`   | Euro with "евроцент"                                          | `две евро и два евроцента` |
+| `AsBgn()`                | Bulgarian leva                                                | `два лева и две стотинки`  |
+| `As(Currency)`           | Custom currency                                               | `два долара и един цент`   |
+| `WithSubunitsAsDigits()` | Subunits as digits                                            | `пет лева и 42 стотинки`   |
+| `Abbreviated()`          | Currency abbreviations                                        | `пет лв. и 42 ст.`         |
+| `Capitalized()`          | Capitalizes the first letter                                  | `Пет лева`                 |
 
 The builder is **immutable**: every method returns a new instance, so configurations can be
 shared and reused safely.
@@ -70,11 +70,11 @@ amount, including 21, 101…) and the grammatical gender.
 
 ## Supported currencies
 
-| Currency | Major | Minor | Abbreviations |
-|---|---|---|---|
-| `Currency.Eur` | евро (neuter) | цент (masculine) | е. / ц. |
-| `Currency.EurWithEurocents` | евро (neuter) | евроцент (masculine) | е. / е.ц. |
-| `Currency.Bgn` | лев (masculine) | стотинка (feminine) | лв. / ст. |
+| Currency                    | Major           | Minor                | Abbreviations |
+| --------------------------- | --------------- | -------------------- | ------------- |
+| `Currency.Eur`              | евро (neuter)   | цент (masculine)     | е. / ц.       |
+| `Currency.EurWithEurocents` | евро (neuter)   | евроцент (masculine) | е. / е.ц.     |
+| `Currency.Bgn`              | лев (masculine) | стотинка (feminine)  | лв. / ст.     |
 
 ## Behavior
 
@@ -95,6 +95,7 @@ amount, including 21, 101…) and the grammatical gender.
 - **Thousands ending in 1** use "хиляди": "двадесет и една хиляди".
 
 Currency terms and abbreviations follow:
+
 - [Закон за въвеждане на еврото в Република България](https://www.tita.bg/laws/899), art. 4:
   one euro is divided into one hundred cents
 - [evroto.bg: guidance on abbreviations](https://evroto.bg/bg/news/399-nasoki-za-izpisvane-na-sakrashteniyata-na-evro-i-evrotsent-):
