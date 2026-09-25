@@ -78,9 +78,10 @@ amount, including 21, 101…) and the grammatical gender.
 
 ## Behavior
 
-- **At most 2 decimal places.** `1.234m` throws `ArgumentException`. Rounding money is the
-  caller's decision, so the library never rounds silently. `1.230m` is accepted.
-- **Range:** ±999 999 999 999.99. Outside it, `ArgumentOutOfRangeException` is thrown.
+- **At most 2 decimal places.** `1.234m.InWords().ToString()` throws `ArgumentException`.
+  Rounding money is the caller's decision, so the library never rounds silently. `1.230m` is
+  accepted.
+- **Range:** ±999 999 999 999.99. Outside it, `ToString()` throws `ArgumentOutOfRangeException`.
 - **Negative amounts** are prefixed with "минус".
 - **Zero subunits are omitted:** `5m` → "пет евро", not "пет евро и нула цента".
 - **No currency conversion.** The library writes amounts; converting BGN to EUR

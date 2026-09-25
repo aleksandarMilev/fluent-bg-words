@@ -43,6 +43,7 @@ public readonly record struct AmountInWords
 
     /// <summary>Writes the amount in a custom currency.</summary>
     /// <param name="currency">The currency to use.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="currency"/> is <see langword="null"/>.</exception>
     public AmountInWords As(Currency currency)
     {
         ArgumentNullException.ThrowIfNull(currency);
