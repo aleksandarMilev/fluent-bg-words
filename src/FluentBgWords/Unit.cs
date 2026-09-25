@@ -1,4 +1,4 @@
-﻿namespace FluentBgWords.Publics;
+﻿namespace FluentBgWords;
 
 /// <summary>
 /// A unit that follows a number, e.g. "лев", "стотинка" or "килограм".

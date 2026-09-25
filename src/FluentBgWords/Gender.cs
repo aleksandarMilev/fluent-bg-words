@@ -1,4 +1,4 @@
-﻿namespace FluentBgWords.Publics;
+﻿namespace FluentBgWords;
 
 /// <summary>
 /// Grammatical gender of the noun that follows a number.

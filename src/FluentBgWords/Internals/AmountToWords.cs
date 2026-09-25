@@ -1,6 +1,6 @@
 ﻿namespace FluentBgWords.Internals;
 
-using Publics;
+using FluentBgWords;
 
 internal static class AmountToWords
 {
