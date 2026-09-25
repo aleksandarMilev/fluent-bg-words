@@ -91,8 +91,9 @@ amount, including 21, 101…) and the grammatical gender.
 
 - **Gender** decides "един/една/едно" and "два/две": "един лев", "една стотинка", "едно евро".
 - **Count form** follows every number except exactly 1: "два лева", "двадесет и един лева".
-- **"и"** goes before the last word of a group ("сто двадесет и един") and between groups when
-  the last group is a single word ("хиляда и сто", but "хиляда сто и двадесет").
+- **"и"** goes before the last word of a group's number ("сто двадесет и един") and between
+  groups when the last group's number is a single word ("хиляда и сто", "един милион и двеста
+  хиляди", but "хиляда сто и двадесет").
 - **Thousands ending in 1** use "хиляди": "двадесет и една хиляди".
 
 Currency terms and abbreviations follow:
