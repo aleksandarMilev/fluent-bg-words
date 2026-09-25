@@ -1,5 +1,6 @@
 ﻿namespace FluentBgWords.Internals;
 
+using System.Diagnostics;
 using FluentBgWords;
 
 internal static class NumberToWords
@@ -157,10 +158,11 @@ internal static class NumberToWords
         {
             (1, Gender.Masculine) => "един",
             (1, Gender.Feminine) => "една",
-            (1, _) => "едно",
+            (1, Gender.Neuter) => "едно",
             (2, Gender.Masculine) => "два",
-            (2, _) => "две",
-            _ => Units[digit],
+            (2, Gender.Feminine or Gender.Neuter) => "две",
+            (_, Gender.Masculine or Gender.Feminine or Gender.Neuter) => Units[digit],
+            _ => throw new UnreachableException($"Undefined gender: {gender}."),
         };
 
     private static string Join(List<Group> groups)

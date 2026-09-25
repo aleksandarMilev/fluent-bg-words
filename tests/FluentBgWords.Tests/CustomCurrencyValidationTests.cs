@@ -157,6 +157,28 @@ public class CustomCurrencyValidationTests
         Assert.Equal("Singular", exception.ParamName);
     }
 
+    [Theory]
+    [InlineData(42)]
+    [InlineData(-1)]
+    public void Unit_UndefinedGender_ThrowsArgumentOutOfRangeException(int gender)
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(
+            () => new Unit("лев", "лева", (Gender)gender));
+
+        Assert.Equal("Gender", exception.ParamName);
+    }
+
+    [Theory]
+    [InlineData(42)]
+    [InlineData(-1)]
+    public void Unit_WithUndefinedGender_ThrowsArgumentOutOfRangeException(int gender)
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(
+            () => Currency.Bgn.Major with { Gender = (Gender)gender });
+
+        Assert.Equal("Gender", exception.ParamName);
+    }
+
     [Fact]
     public void As_ValidCustomCurrency_WritesAmount()
     {

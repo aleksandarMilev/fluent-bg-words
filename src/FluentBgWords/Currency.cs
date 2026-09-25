@@ -42,20 +42,30 @@ public sealed record Currency(
         "е.",
         "е.ц.");
 
-    private readonly Unit major = Guard.NotNull(Major, nameof(Major));
+    private readonly Unit major
+        = Guard.AgainstNull(Major, nameof(Major));
 
-    private readonly Unit minor = Guard.NotNull(Minor, nameof(Minor));
+    private readonly Unit minor
+        = Guard.AgainstNull(Minor, nameof(Minor));
 
-    private readonly string majorAbbreviation = Guard.Text(MajorAbbreviation, nameof(MajorAbbreviation));
+    private readonly string majorAbbreviation
+        = Guard.AgainstLeadingOrTrailingWhitespace(
+            MajorAbbreviation,
+            nameof(MajorAbbreviation));
 
-    private readonly string minorAbbreviation = Guard.Text(MinorAbbreviation, nameof(MinorAbbreviation));
+    private readonly string minorAbbreviation
+        = Guard.AgainstLeadingOrTrailingWhitespace(
+            MinorAbbreviation,
+            nameof(MinorAbbreviation));
 
     /// <summary>The main unit, e.g. "лев" or "евро".</summary>
     /// <exception cref="ArgumentNullException">The value is null.</exception>
     public Unit Major
     {
         get => this.major;
-        init => this.major = Guard.NotNull(value, nameof(Major));
+        init => this.major = Guard.AgainstNull(
+            value,
+            nameof(this.Major));
     }
 
     /// <summary>The subunit (1/100 of the major unit), e.g. "стотинка" or "цент".</summary>
@@ -63,7 +73,9 @@ public sealed record Currency(
     public Unit Minor
     {
         get => this.minor;
-        init => this.minor = Guard.NotNull(value, nameof(Minor));
+        init => this.minor = Guard.AgainstNull(
+            value,
+            nameof(this.Minor));
     }
 
     /// <summary>Short form of the major unit, e.g. "лв." or "€".</summary>
@@ -72,7 +84,9 @@ public sealed record Currency(
     public string MajorAbbreviation
     {
         get => this.majorAbbreviation;
-        init => this.majorAbbreviation = Guard.Text(value, nameof(MajorAbbreviation));
+        init => this.majorAbbreviation = Guard.AgainstLeadingOrTrailingWhitespace(
+            value,
+            nameof(this.MajorAbbreviation));
     }
 
     /// <summary>Short form of the minor unit, e.g. "ст." or "ц.".</summary>
@@ -81,6 +95,8 @@ public sealed record Currency(
     public string MinorAbbreviation
     {
         get => this.minorAbbreviation;
-        init => this.minorAbbreviation = Guard.Text(value, nameof(MinorAbbreviation));
+        init => this.minorAbbreviation = Guard.AgainstLeadingOrTrailingWhitespace(
+            value,
+            nameof(this.MinorAbbreviation));
     }
 }
