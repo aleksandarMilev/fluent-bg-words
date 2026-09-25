@@ -70,7 +70,7 @@ public readonly record struct AmountInWords
             IsCapitalized = true
         };
 
-    /// <summary>Uses the currency abbreviations: "пет лв. и 42 ст.".</summary>
+    /// <summary>Uses the currency abbreviations: "пет лв. и четиридесет и две ст.".</summary>
     public AmountInWords Abbreviated()
         => this with 
         { 
