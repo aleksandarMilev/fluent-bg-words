@@ -5,7 +5,7 @@ namespace FluentBgWords.Tests;
 public class NumberToWordsTests
 {
     [Theory]
-    // tens
+    // units, teens and tens
     [InlineData(0L, "нула")]
     [InlineData(1L, "един")]
     [InlineData(2L, "два")]
