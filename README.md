@@ -13,7 +13,7 @@ for legacy data, with correct grammatical gender and count forms.
 dotnet add package FluentBgWords
 ```
 
-Targets `net8.0` and `net10.0`.
+Targets `net8.0` and `net10.0` (works on .NET 8 and later).
 
 ## Quick start
 
