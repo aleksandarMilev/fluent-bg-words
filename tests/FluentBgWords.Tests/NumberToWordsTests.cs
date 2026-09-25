@@ -1,6 +1,6 @@
-﻿using FluentBgWords.Internals;
+﻿namespace FluentBgWords.Tests;
 
-namespace FluentBgWords.Tests;
+using FluentBgWords.Internals;
 
 public class NumberToWordsTests
 {

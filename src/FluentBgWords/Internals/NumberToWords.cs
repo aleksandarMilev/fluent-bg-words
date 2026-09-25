@@ -43,7 +43,7 @@ internal static class NumberToWords
         // thousands
         new(
             1_000,
-            Gender.Feminine, 
+            Gender.Feminine,
             "хиляда",
             "хиляди",
             OmitOne: true),

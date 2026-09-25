@@ -1,7 +1,7 @@
-﻿using System.Globalization;
-using FluentBgWords.Internals;
+﻿namespace FluentBgWords.Tests;
 
-namespace FluentBgWords.Tests;
+using System.Globalization;
+using FluentBgWords.Internals;
 
 public class AmountToWordsTests
 {
