@@ -9,6 +9,13 @@ public class ReadmeExamplesTests
             "хиляда двеста тридесет и четири евро и петдесет и шест евроцента",
             1234.56m.InWords().AsEurWithEurocents().ToString());
 
+    // README: "API" table, InWords() row
+    [Fact]
+    public void InWords_ApiTableExample_DefaultsToEuro()
+        => Assert.Equal(
+            "пет евро",
+            5m.InWords().ToString());
+
     // README: "API" table, AsEur() row
     [Fact]
     public void AsEur_ApiTableExample_WritesCents()
@@ -31,12 +38,11 @@ public class ReadmeExamplesTests
             5.42m.InWords().AsBgn().WithSubunitsAsDigits().ToString());
 
     // README: "API" table, Abbreviated() row
-    // README table row omits WithSubunitsAsDigits(); fixed in batch 4 (TEST-05 note).
     [Fact]
     public void Abbreviated_ApiTableExample_WritesAbbreviations()
         => Assert.Equal(
-            "пет лв. и 42 ст.",
-            5.42m.InWords().AsBgn().WithSubunitsAsDigits().Abbreviated().ToString());
+            "пет лв. и четиридесет и две ст.",
+            5.42m.InWords().AsBgn().Abbreviated().ToString());
 
     // README: "API" table, Capitalized() row
     [Fact]

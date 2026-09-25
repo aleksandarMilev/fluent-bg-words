@@ -38,16 +38,16 @@ using FluentBgWords;
 
 ## API
 
-| Method                   | Effect                                                        | Example output             |
-| ------------------------ | ------------------------------------------------------------- | -------------------------- |
-| `InWords()`              | Starts the chain (`decimal`, `int`, `long`). Defaults to EUR. | `пет евро`                 |
-| `AsEur()`                | Euro with "цент"                                              | `две евро и два цента`     |
-| `AsEurWithEurocents()`   | Euro with "евроцент"                                          | `две евро и два евроцента` |
-| `AsBgn()`                | Bulgarian leva                                                | `два лева и две стотинки`  |
-| `As(Currency)`           | Custom currency                                               | `два долара и един цент`   |
-| `WithSubunitsAsDigits()` | Subunits as digits                                            | `пет лева и 42 стотинки`   |
-| `Abbreviated()`          | Currency abbreviations                                        | `пет лв. и 42 ст.`         |
-| `Capitalized()`          | Capitalizes the first letter                                  | `Пет лева`                 |
+| Method                   | Effect                                                        | Example output                    |
+| ------------------------ | ------------------------------------------------------------- | --------------------------------- |
+| `InWords()`              | Starts the chain (`decimal`, `int`, `long`). Defaults to EUR. | `пет евро`                        |
+| `AsEur()`                | Euro with "цент"                                              | `две евро и два цента`            |
+| `AsEurWithEurocents()`   | Euro with "евроцент"                                          | `две евро и два евроцента`        |
+| `AsBgn()`                | Bulgarian leva                                                | `два лева и две стотинки`         |
+| `As(Currency)`           | Custom currency                                               | `два долара и един цент`          |
+| `WithSubunitsAsDigits()` | Subunits as digits                                            | `пет лева и 42 стотинки`          |
+| `Abbreviated()`          | Currency abbreviations                                        | `пет лв. и четиридесет и две ст.` |
+| `Capitalized()`          | Capitalizes the first letter                                  | `Пет лева`                        |
 
 The builder is **immutable**: every method returns a new instance, so a partially configured
 amount can be branched safely. For example, build `.AsBgn()` once and derive `.Abbreviated()`
