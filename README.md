@@ -69,6 +69,12 @@ var usd = new Currency(
 `Unit` takes the singular form (used for exactly 1), the count form (used for every other
 amount, including 21, 101…) and the grammatical gender.
 
+Unit names and abbreviations must be non-empty, with no leading or trailing whitespace: `null`
+throws `ArgumentNullException`, and an empty, whitespace-only or padded value throws
+`ArgumentException`. `Major` and `Minor` must not be `null` either. The same checks apply to
+`with` expressions, so `Currency.Bgn with { MajorAbbreviation = "" }` throws. An undefined
+`Gender` value, such as `(Gender)42`, throws `ArgumentOutOfRangeException`.
+
 ## Supported currencies
 
 | Currency                    | Major           | Minor                | Abbreviations |
@@ -87,6 +93,8 @@ amount, including 21, 101…) and the grammatical gender.
 - **Zero subunits are omitted:** `5m` → "пет евро", not "пет евро и нула цента".
 - **No currency conversion.** The library writes amounts; converting BGN to EUR
   (at 1.95583) is the caller's responsibility.
+- **Nullable amounts:** use `?.`. `amount?.InWords().AsBgn().ToString()` returns `null` when
+  `amount` is `null`.
 
 ## Grammar rules and sources
 
