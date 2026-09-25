@@ -44,16 +44,8 @@ jobs:
       - name: Dry-run version from the latest release tag
         if: github.event_name == 'workflow_dispatch'
         run: |
-          if ! LATEST_TAG="$(git describe --tags --abbrev=0 --match 'v*' 2>/dev/null)"; then
-            echo "::error::No v* release tag is reachable from $GITHUB_SHA. A dry run derives its version from the latest release tag."
-            exit 1
-          fi
-          if [[ ! "$LATEST_TAG" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)(-.*)?$ ]]; then
-            echo "::error::Latest release tag '$LATEST_TAG' is not v<major>.<minor>.<patch>; cannot derive a dry-run version."
-            exit 1
-          fi
-          VERSION="${BASH_REMATCH[1]}.${BASH_REMATCH[2]}.$((BASH_REMATCH[3] + 1))-dryrun.$GITHUB_RUN_NUMBER"
-          echo "Dry run of $VERSION (latest release tag: $LATEST_TAG)"
+          VERSION="$(bash .github/scripts/prerelease-version.sh dryrun "$GITHUB_RUN_NUMBER")"
+          echo "Dry run of $VERSION"
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
 
       - name: Restore

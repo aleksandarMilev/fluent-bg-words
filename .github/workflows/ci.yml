@@ -15,17 +15,31 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 8.0.x
           global-json-file: global.json
 
+      - name: Version
+        run: |
+          VERSION="$(bash .github/scripts/prerelease-version.sh ci "$GITHUB_RUN_NUMBER")"
+          echo "CI build of $VERSION"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
       - name: Restore
-        run: dotnet restore
+        run: dotnet restore -p:Version=$VERSION
+
+      - name: Check code style
+        run: dotnet format --verify-no-changes --no-restore
 
       - name: Build
-        run: dotnet build --no-restore -c Release
+        run: dotnet build -c Release --no-restore -p:Version=$VERSION
 
       - name: Test
-        run: dotnet test --no-build -c Release --verbosity normal
+        run: dotnet test -c Release --no-build --verbosity normal
+
+      - name: Pack (runs package validation)
+        run: dotnet pack src/FluentBgWords -c Release --no-build -p:Version=$VERSION -o "$RUNNER_TEMP/packages"
