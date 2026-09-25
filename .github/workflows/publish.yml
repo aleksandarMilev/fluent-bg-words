@@ -57,7 +57,7 @@ jobs:
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
 
       - name: Restore
-        run: dotnet restore
+        run: dotnet restore -p:Version=$VERSION
 
       - name: Build
         run: dotnet build -c Release --no-restore -p:Version=$VERSION
