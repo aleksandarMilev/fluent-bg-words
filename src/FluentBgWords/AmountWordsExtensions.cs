@@ -8,4 +8,16 @@ public static class AmountWordsExtensions
     public static AmountInWords InWords(
         this decimal amount)
         => new(amount);
+
+    /// <summary>Starts writing <paramref name="amount"/> in Bulgarian words. Defaults to euro.</summary>
+    /// <param name="amount">The amount.</param>
+    public static AmountInWords InWords(
+        this int amount)
+        => new(amount);
+
+    /// <summary>Starts writing <paramref name="amount"/> in Bulgarian words. Defaults to euro.</summary>
+    /// <param name="amount">The amount.</param>
+    public static AmountInWords InWords(
+        this long amount)
+        => new(amount);
 }

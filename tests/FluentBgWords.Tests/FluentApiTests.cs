@@ -58,4 +58,22 @@ public class FluentApiTests
             "два долара и един цент",
             2.01m.InWords().As(usd).ToString());
     }
+
+    [Fact]
+    public void Abbreviated_ClassicInvoiceFormat()
+        => Assert.Equal(
+            "Сто шестдесет и седем лв. и 42 ст.",
+            167.42m.InWords().AsBgn().WithSubunitsAsDigits().Abbreviated().Capitalized().ToString());
+
+    [Fact]
+    public void InWords_Int()
+        => Assert.Equal(
+            "пет лева",
+            5.InWords().AsBgn().ToString());
+
+    [Fact]
+    public void InWords_Long()
+        => Assert.Equal(
+            "два милиарда евро",
+            2_000_000_000L.InWords().ToString());
 }

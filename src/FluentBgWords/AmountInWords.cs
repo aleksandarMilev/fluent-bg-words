@@ -62,6 +62,16 @@ public readonly record struct AmountInWords
             IsCapitalized = true
         };
 
+    /// <summary>Uses the currency abbreviations: "пет лв. и 42 ст.".</summary>
+    public AmountInWords Abbreviated()
+        => this with 
+        { 
+            Format = Format with 
+            { 
+                Abbreviated = true 
+            } 
+        };
+
     /// <summary>Returns the amount written in Bulgarian words.</summary>
     /// <exception cref="ArgumentException">The amount has more than 2 decimal places.</exception>
     /// <exception cref="ArgumentOutOfRangeException">The amount is outside the supported range.</exception>

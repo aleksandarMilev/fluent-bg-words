@@ -56,6 +56,24 @@ public class AmountToWordsTests
                 CurrencyFrom(currencyCode),
                 new AmountFormat(SubunitsAsDigits: true)));
 
+    [Theory]
+    [InlineData("1", false, "един лв.")]
+    [InlineData("5", false, "пет лв.")]
+    [InlineData("167.42", false, "сто шестдесет и седем лв. и четиридесет и две ст.")]
+    [InlineData("167.42", true, "сто шестдесет и седем лв. и 42 ст.")]
+    public void Convert_Abbreviated_Bgn(
+        string amount,
+        bool subunitsAsDigits,
+        string expected)
+        => Assert.Equal(
+            expected,
+            AmountToWords.Convert(
+                Parse(amount),
+                Currency.Bgn,
+                new AmountFormat(
+                    SubunitsAsDigits: subunitsAsDigits,
+                    Abbreviated: true)));
+
     [Fact]
     public void Convert_Negative_PrefixesMinus()
         => Assert.Equal(
