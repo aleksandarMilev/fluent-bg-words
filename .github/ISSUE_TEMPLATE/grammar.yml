@@ -1,0 +1,65 @@
+name: Grammar report
+description: An amount is written in Bulgarian that reads wrong.
+title: "[Grammar] "
+labels: ["grammar"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping get the Bulgarian right. Please give the exact input and output,
+        so the case can be turned into a test.
+
+  - type: input
+    id: amount
+    attributes:
+      label: Amount
+      description: The amount you passed to `InWords()`, exactly as written in code.
+      placeholder: 21021.01m
+    validations:
+      required: true
+
+  - type: dropdown
+    id: currency
+    attributes:
+      label: Currency
+      options:
+        - EUR with "цент" (default, AsEur())
+        - EUR with "евроцент" (AsEurWithEurocents())
+        - BGN (AsBgn())
+        - Custom currency (As(...), shown in the code below)
+    validations:
+      required: true
+
+  - type: textarea
+    id: chain
+    attributes:
+      label: Fluent chain
+      description: The exact code you ran.
+      render: csharp
+      placeholder: 21021.01m.InWords().AsBgn().ToString()
+    validations:
+      required: true
+
+  - type: input
+    id: actual
+    attributes:
+      label: Actual output
+      description: The text the library produced.
+    validations:
+      required: true
+
+  - type: input
+    id: expected
+    attributes:
+      label: Expected output
+      description: The correct Bulgarian text.
+    validations:
+      required: true
+
+  - type: textarea
+    id: source
+    attributes:
+      label: Source or reference
+      description: A dictionary entry, grammar rule, or official document that supports the correct form.
+    validations:
+      required: false
