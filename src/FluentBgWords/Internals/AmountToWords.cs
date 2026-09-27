@@ -7,13 +7,8 @@ internal static class AmountToWords
 {
     private const decimal MaxAmount = NumberToWords.MaxValue + 0.99m;
 
-    public static string Convert(
-        decimal amount,
-        Currency currency,
-        AmountFormat format = default)
+    public static decimal Validate(decimal amount)
     {
-        ArgumentNullException.ThrowIfNull(currency);
-
         if (decimal.Round(amount, 2) != amount)
         {
             throw new ArgumentException(
@@ -21,10 +16,27 @@ internal static class AmountToWords
                 nameof(amount));
         }
 
+        // Separate bounds, so ActualValue is the caller's value with its sign.
         ArgumentOutOfRangeException.ThrowIfGreaterThan(
-            Math.Abs(amount),
+            amount,
             MaxAmount,
             nameof(amount));
+
+        ArgumentOutOfRangeException.ThrowIfLessThan(
+            amount,
+            -MaxAmount,
+            nameof(amount));
+
+        return amount;
+    }
+
+    public static string Convert(
+        decimal amount,
+        Currency currency,
+        AmountFormat format = default)
+    {
+        ArgumentNullException.ThrowIfNull(currency);
+        Validate(amount);
 
         var prefix = amount < 0 ? "минус " : string.Empty;
         amount = Math.Abs(amount);
