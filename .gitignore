@@ -260,6 +260,3 @@ $RECYCLE.BIN/
 *.msp
 *.lnk
 *.swp
-
-# specific gitignore for the library project
-artifacts/
