@@ -68,7 +68,7 @@ public class NumberToWordsTests
     [InlineData(21_000_000_000L, "двадесет и един милиарда")]
     [InlineData(22_000_000_000L, "двадесет и два милиарда")]
     // 3+ groups: expected values pin current behavior (single "и" before the last group).
-    // NEEDS NATIVE VERIFICATION, see CODE_REVIEW.md TEST-01.
+    // NEEDS NATIVE VERIFICATION, see issue #7.
     [InlineData(1_001_001L, "един милион хиляда и един")]
     [InlineData(1_100_100L, "един милион сто хиляди и сто")]
     [InlineData(1_101_101L, "един милион сто и една хиляди сто и един")]
@@ -99,7 +99,7 @@ public class NumberToWordsTests
     [InlineData(21_000_000L, GrammaticalGender.Feminine, "двадесет и един милиона")]
     [InlineData(22_000_000_000L, GrammaticalGender.Feminine, "двадесет и два милиарда")]
     // 3+ groups: expected values pin current behavior (single "и" before the last group).
-    // NEEDS NATIVE VERIFICATION, see CODE_REVIEW.md TEST-01.
+    // NEEDS NATIVE VERIFICATION, see issue #7.
     [InlineData(1_001_001_001L, GrammaticalGender.Neuter, "един милиард един милион хиляда и едно")]
     [InlineData(2_002_002_002L, GrammaticalGender.Neuter, "два милиарда два милиона две хиляди и две")]
     public void Convert_GenderAffectsOnlyLastGroup(
