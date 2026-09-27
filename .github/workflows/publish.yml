@@ -58,7 +58,9 @@ jobs:
         run: dotnet test -c Release --no-build
 
       - name: Pack
-        run: dotnet pack src/FluentBgWords -c Release --no-build -o artifacts -p:Version=$VERSION
+        run: |
+          dotnet pack src/FluentBgWords -c Release --no-build -o artifacts -p:Version=$VERSION
+          dotnet pack src/FluentBgWords.DependencyInjection -c Release --no-build -o artifacts -p:Version=$VERSION
 
       - name: Upload dry-run packages
         if: github.event_name == 'workflow_dispatch'

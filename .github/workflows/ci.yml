@@ -42,4 +42,6 @@ jobs:
         run: dotnet test -c Release --no-build --verbosity normal
 
       - name: Pack (runs package validation)
-        run: dotnet pack src/FluentBgWords -c Release --no-build -p:Version=$VERSION -o "$RUNNER_TEMP/packages"
+        run: |
+          dotnet pack src/FluentBgWords -c Release --no-build -p:Version=$VERSION -o "$RUNNER_TEMP/packages"
+          dotnet pack src/FluentBgWords.DependencyInjection -c Release --no-build -p:Version=$VERSION -o "$RUNNER_TEMP/packages"
