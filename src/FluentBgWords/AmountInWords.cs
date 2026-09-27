@@ -10,10 +10,14 @@ using FluentBgWords.Internals;
 public readonly record struct AmountInWords
 {
     internal AmountInWords(decimal amount)
-        => this.Amount = amount;
+    {
+        this.Amount = amount;
+        this.SelectedCurrency = Currency.Eur;
+    }
 
     private decimal Amount { get; init; }
 
+    // Null only for default(AmountInWords), which bypasses the constructor; ToString() falls back to euro.
     private Currency? SelectedCurrency { get; init; }
 
     private AmountFormat Format { get; init; }
