@@ -46,7 +46,7 @@ using FluentBgWords;
 | `AsEur()`                | Euro with "цент"                                              | `две евро и два цента`            |
 | `AsEurWithEurocents()`   | Euro with "евроцент"                                          | `две евро и два евроцента`        |
 | `AsBgn()`                | Bulgarian leva                                                | `два лева и две стотинки`         |
-| `As(Currency)`           | Custom currency                                               | `два долара и един цент`          |
+| `As(CurrencyDefinition)` | Custom currency                                               | `два долара и един цент`          |
 | `WithSubunitsAsDigits()` | Subunits as digits                                            | `пет лева и 42 стотинки`          |
 | `Abbreviated()`          | Currency abbreviations                                        | `пет лв. и четиридесет и две ст.` |
 | `Capitalized()`          | Capitalizes the first letter                                  | `Пет лева`                        |
@@ -58,9 +58,9 @@ and `.Capitalized()` variants from it without affecting each other.
 ### Custom currencies
 
 ```csharp
-var usd = new Currency(
-    new Unit("долар", "долара", Gender.Masculine),
-    new Unit("цент", "цента", Gender.Masculine),
+var usd = new CurrencyDefinition(
+    new CurrencyUnit("долар", "долара", GrammaticalGender.Masculine),
+    new CurrencyUnit("цент", "цента", GrammaticalGender.Masculine),
     "$",
     "ц.");
 
@@ -68,22 +68,23 @@ var usd = new Currency(
 // два долара и един цент
 ```
 
-`Unit` takes the singular form (used for exactly 1), the count form (used for every other
-amount, including 21, 101…) and the grammatical gender.
+`CurrencyUnit` takes the singular form (used for exactly 1), the count form (used for every
+other amount, including 21, 101…) and the grammatical gender.
 
 Unit names and abbreviations must be non-empty, with no leading or trailing whitespace: `null`
 throws `ArgumentNullException`, and an empty, whitespace-only or padded value throws
 `ArgumentException`. `Major` and `Minor` must not be `null` either. The same checks apply to
-`with` expressions, so `Currency.Bgn with { MajorAbbreviation = "" }` throws. An undefined
-`Gender` value, such as `(Gender)42`, throws `ArgumentOutOfRangeException`.
+`with` expressions, so `CurrencyDefinition.Bgn with { MajorAbbreviation = "" }` throws. An
+undefined `GrammaticalGender` value, such as `(GrammaticalGender)42`, throws
+`ArgumentOutOfRangeException`.
 
 ## Supported currencies
 
-| Currency                    | Major           | Minor                | Abbreviations |
-| --------------------------- | --------------- | -------------------- | ------------- |
-| `Currency.Eur`              | евро (neuter)   | цент (masculine)     | е. / ц.       |
-| `Currency.EurWithEurocents` | евро (neuter)   | евроцент (masculine) | е. / е.ц.     |
-| `Currency.Bgn`              | лев (masculine) | стотинка (feminine)  | лв. / ст.     |
+| Currency                              | Major           | Minor                | Abbreviations |
+| ------------------------------------- | --------------- | -------------------- | ------------- |
+| `CurrencyDefinition.Eur`              | евро (neuter)   | цент (masculine)     | е. / ц.       |
+| `CurrencyDefinition.EurWithEurocents` | евро (neuter)   | евроцент (masculine) | е. / е.ц.     |
+| `CurrencyDefinition.Bgn`              | лев (masculine) | стотинка (feminine)  | лв. / ст.     |
 
 ## Behavior
 

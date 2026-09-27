@@ -12,13 +12,13 @@ public readonly record struct AmountInWords
     internal AmountInWords(decimal amount)
     {
         this.Amount = AmountToWords.Validate(amount);
-        this.SelectedCurrency = Currency.Eur;
+        this.SelectedCurrency = CurrencyDefinition.Eur;
     }
 
     private decimal Amount { get; init; }
 
     // Null only for default(AmountInWords), which bypasses the constructor; ToString() falls back to euro.
-    private Currency? SelectedCurrency { get; init; }
+    private CurrencyDefinition? SelectedCurrency { get; init; }
 
     private AmountFormat Format { get; init; }
 
@@ -28,27 +28,27 @@ public readonly record struct AmountInWords
     public AmountInWords AsBgn()
         => this with
         {
-            SelectedCurrency = Currency.Bgn
+            SelectedCurrency = CurrencyDefinition.Bgn
         };
 
     /// <summary>Writes the amount in euro (EUR): "две евро и един цент". This is the default.</summary>
     public AmountInWords AsEur()
         => this with
         {
-            SelectedCurrency = Currency.Eur
+            SelectedCurrency = CurrencyDefinition.Eur
         };
 
     /// <summary>Writes the amount in euro with "евроцент" as the subunit: "пет евро и два евроцента".</summary>
     public AmountInWords AsEurWithEurocents()
         => this with
         {
-            SelectedCurrency = Currency.EurWithEurocents
+            SelectedCurrency = CurrencyDefinition.EurWithEurocents
         };
 
     /// <summary>Writes the amount in a custom currency.</summary>
     /// <param name="currency">The currency to use.</param>
     /// <exception cref="ArgumentNullException"><paramref name="currency"/> is <see langword="null"/>.</exception>
-    public AmountInWords As(Currency currency)
+    public AmountInWords As(CurrencyDefinition currency)
     {
         ArgumentNullException.ThrowIfNull(currency);
         return this with
@@ -87,13 +87,13 @@ public readonly record struct AmountInWords
     /// <summary>Returns the amount written in Bulgarian words.</summary>
     /// <remarks>
     /// This method does not throw: the amount is validated when the builder is created by
-    /// <see cref="AmountWordsExtensions.InWords(decimal)"/>.
+    /// <see cref="AmountInWordsExtensions.InWords(decimal)"/>.
     /// </remarks>
     public override string ToString()
     {
         var text = AmountToWords.Convert(
             this.Amount,
-            this.SelectedCurrency ?? Currency.Eur, this.Format);
+            this.SelectedCurrency ?? CurrencyDefinition.Eur, this.Format);
 
         return this.IsCapitalized
             ? char.ToUpperInvariant(text[0]) + text[1..]

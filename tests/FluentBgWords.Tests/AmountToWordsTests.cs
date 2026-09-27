@@ -20,7 +20,7 @@ public class AmountToWordsTests
     public void Convert_Eur(string amount, string expected)
         => Assert.Equal(
             expected,
-            AmountToWords.Convert(Parse(amount), Currency.Eur));
+            AmountToWords.Convert(Parse(amount), CurrencyDefinition.Eur));
 
     [Theory]
     [InlineData("1", "един лев")]
@@ -35,7 +35,7 @@ public class AmountToWordsTests
     public void Convert_Bgn(string amount, string expected)
         => Assert.Equal(
             expected,
-            AmountToWords.Convert(Parse(amount), Currency.Bgn));
+            AmountToWords.Convert(Parse(amount), CurrencyDefinition.Bgn));
 
     [Theory]
     [InlineData("167.42", "BGN", "сто шестдесет и седем лева и 42 стотинки")]
@@ -69,7 +69,7 @@ public class AmountToWordsTests
             expected,
             AmountToWords.Convert(
                 Parse(amount),
-                Currency.Bgn,
+                CurrencyDefinition.Bgn,
                 new AmountFormat(
                     SubunitsAsDigits: subunitsAsDigits,
                     Abbreviated: true)));
@@ -86,7 +86,7 @@ public class AmountToWordsTests
             expected,
             AmountToWords.Convert(
                 Parse(amount),
-                Currency.Eur,
+                CurrencyDefinition.Eur,
                 new AmountFormat(
                     SubunitsAsDigits: subunitsAsDigits,
                     Abbreviated: true)));
@@ -96,32 +96,32 @@ public class AmountToWordsTests
     [InlineData("2.02", "две евро и два евроцента")]
     [InlineData("1234.56", "хиляда двеста тридесет и четири евро и петдесет и шест евроцента")]
     public void Convert_EurWithEurocents(string amount, string expected)
-        => Assert.Equal(expected, AmountToWords.Convert(Parse(amount), Currency.EurWithEurocents));
+        => Assert.Equal(expected, AmountToWords.Convert(Parse(amount), CurrencyDefinition.EurWithEurocents));
 
     [Fact]
     public void Convert_Negative_PrefixesMinus()
         => Assert.Equal(
             "минус пет евро",
-            AmountToWords.Convert(-5m, Currency.Eur));
+            AmountToWords.Convert(-5m, CurrencyDefinition.Eur));
 
     [Fact]
     public void Convert_MoreThanTwoDecimals_Throws()
         => Assert.Throws<ArgumentException>(
-            () => AmountToWords.Convert(1.234m, Currency.Eur));
+            () => AmountToWords.Convert(1.234m, CurrencyDefinition.Eur));
 
     [Fact]
     public void Convert_AboveMaxValue_Throws()
         => Assert.Throws<ArgumentOutOfRangeException>(
-            () => AmountToWords.Convert(1_000_000_000_000m, Currency.Eur));
+            () => AmountToWords.Convert(1_000_000_000_000m, CurrencyDefinition.Eur));
 
     private static decimal Parse(string value)
         => decimal.Parse(value, CultureInfo.InvariantCulture);
 
-    private static Currency CurrencyFrom(string code)
+    private static CurrencyDefinition CurrencyFrom(string code)
         => code switch
         {
-            "BGN" => Currency.Bgn,
-            "EUR" => Currency.Eur,
+            "BGN" => CurrencyDefinition.Bgn,
+            "EUR" => CurrencyDefinition.Eur,
             _ => throw new ArgumentOutOfRangeException(
                 nameof(code),
                 code,

@@ -8,10 +8,10 @@ using FluentBgWords.Internals;
 /// <param name="Singular">Form used for exactly one: "лев", "стотинка", "евро".</param>
 /// <param name="CountForm">Form used for any other amount, including 21, 101, etc.: "лева", "стотинки", "евро".</param>
 /// <param name="Gender">Grammatical gender; decides "един/една/едно" and "два/две".</param>
-public sealed record Unit(
+public sealed record CurrencyUnit(
     string Singular,
     string CountForm,
-    Gender Gender)
+    GrammaticalGender Gender)
 {
     private readonly string singular
         = Guard.AgainstLeadingOrTrailingWhitespace(
@@ -23,7 +23,7 @@ public sealed record Unit(
             CountForm,
             nameof(CountForm));
 
-    private readonly Gender gender
+    private readonly GrammaticalGender gender
         = Guard.AgainstUndefinedEnum(
             Gender,
             nameof(Gender));
@@ -51,8 +51,8 @@ public sealed record Unit(
     }
 
     /// <summary>Grammatical gender; decides "един/една/едно" and "два/две".</summary>
-    /// <exception cref="ArgumentOutOfRangeException">The value is not a defined <see cref="FluentBgWords.Gender"/> member.</exception>
-    public Gender Gender
+    /// <exception cref="ArgumentOutOfRangeException">The value is not a defined <see cref="GrammaticalGender"/> member.</exception>
+    public GrammaticalGender Gender
     {
         get => this.gender;
         init => this.gender = Guard.AgainstUndefinedEnum(

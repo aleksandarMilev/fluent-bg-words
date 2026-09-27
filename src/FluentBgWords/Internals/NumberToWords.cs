@@ -29,21 +29,21 @@ internal static class NumberToWords
         // billions
         new(
             1_000_000_000,
-            Gender.Masculine,
+            GrammaticalGender.Masculine,
             "милиард",
             "милиарда",
             OmitOne: false),
         //millions
         new(
             1_000_000,
-            Gender.Masculine,
+            GrammaticalGender.Masculine,
             "милион",
             "милиона",
             OmitOne: false),
         // thousands
         new(
             1_000,
-            Gender.Feminine,
+            GrammaticalGender.Feminine,
             "хиляда",
             "хиляди",
             OmitOne: true),
@@ -51,7 +51,7 @@ internal static class NumberToWords
 
     public static string Convert(
         long number,
-        Gender gender = Gender.Masculine)
+        GrammaticalGender gender = GrammaticalGender.Masculine)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThan(number, MaxValue);
         ArgumentOutOfRangeException.ThrowIfLessThan(number, -MaxValue);
@@ -105,7 +105,7 @@ internal static class NumberToWords
 
     private static Group BuildGroup(
         int value,
-        Gender gender,
+        GrammaticalGender gender,
         string? scaleWord = null)
     {
         var words = Numerals(value, gender);
@@ -126,7 +126,7 @@ internal static class NumberToWords
 
     private static List<string> Numerals(
         int value,
-        Gender gender)
+        GrammaticalGender gender)
     {
         var words = new List<string>(3);
         var hundreds = value / 100;
@@ -150,22 +150,22 @@ internal static class NumberToWords
 
             if (rest % 10 > 0)
             {
-                words.Add(Unit(rest % 10, gender));
+                words.Add(DigitWord(rest % 10, gender));
             }
         }
 
         return words;
     }
 
-    private static string Unit(int digit, Gender gender)
+    private static string DigitWord(int digit, GrammaticalGender gender)
         => (digit, gender) switch
         {
-            (1, Gender.Masculine) => "един",
-            (1, Gender.Feminine) => "една",
-            (1, Gender.Neuter) => "едно",
-            (2, Gender.Masculine) => "два",
-            (2, Gender.Feminine or Gender.Neuter) => "две",
-            (_, Gender.Masculine or Gender.Feminine or Gender.Neuter) => Units[digit],
+            (1, GrammaticalGender.Masculine) => "един",
+            (1, GrammaticalGender.Feminine) => "една",
+            (1, GrammaticalGender.Neuter) => "едно",
+            (2, GrammaticalGender.Masculine) => "два",
+            (2, GrammaticalGender.Feminine or GrammaticalGender.Neuter) => "две",
+            (_, GrammaticalGender.Masculine or GrammaticalGender.Feminine or GrammaticalGender.Neuter) => Units[digit],
             _ => throw new UnreachableException($"Undefined gender: {gender}."),
         };
 

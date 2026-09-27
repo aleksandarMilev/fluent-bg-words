@@ -9,16 +9,16 @@ using FluentBgWords.Internals;
 /// <param name="Minor">The subunit (1/100 of the major unit), e.g. "стотинка" or "цент".</param>
 /// <param name="MajorAbbreviation">Short form of the major unit, e.g. "лв." or "€".</param>
 /// <param name="MinorAbbreviation">Short form of the minor unit, e.g. "ст." or "ц.".</param>
-public sealed record Currency(
-    Unit Major,
-    Unit Minor,
+public sealed record CurrencyDefinition(
+    CurrencyUnit Major,
+    CurrencyUnit Minor,
     string MajorAbbreviation,
     string MinorAbbreviation)
 {
     /// <summary>Bulgarian lev (BGN), for documents and data from before the euro changeover.</summary>
-    public static readonly Currency Bgn = new(
-        new Unit("лев", "лева", Gender.Masculine),
-        new Unit("стотинка", "стотинки", Gender.Feminine),
+    public static readonly CurrencyDefinition Bgn = new(
+        new CurrencyUnit("лев", "лева", GrammaticalGender.Masculine),
+        new CurrencyUnit("стотинка", "стотинки", GrammaticalGender.Feminine),
         "лв.",
         "ст.");
 
@@ -26,9 +26,9 @@ public sealed record Currency(
     /// Euro (EUR) with "цент" as the subunit, as defined in art. 4 of the Euro Introduction Act.
     /// Abbreviations follow the official guidance: "е." and "ц.".
     /// </summary>
-    public static readonly Currency Eur = new(
-        new Unit("евро", "евро", Gender.Neuter),
-        new Unit("цент", "цента", Gender.Masculine),
+    public static readonly CurrencyDefinition Eur = new(
+        new CurrencyUnit("евро", "евро", GrammaticalGender.Neuter),
+        new CurrencyUnit("цент", "цента", GrammaticalGender.Masculine),
         "е.",
         "ц.");
 
@@ -36,16 +36,16 @@ public sealed record Currency(
     /// Euro (EUR) with "евроцент" as the subunit, the form common on invoices.
     /// Abbreviations follow the official guidance: "е." and "е.ц.".
     /// </summary>
-    public static readonly Currency EurWithEurocents = new(
-        new Unit("евро", "евро", Gender.Neuter),
-        new Unit("евроцент", "евроцента", Gender.Masculine),
+    public static readonly CurrencyDefinition EurWithEurocents = new(
+        new CurrencyUnit("евро", "евро", GrammaticalGender.Neuter),
+        new CurrencyUnit("евроцент", "евроцента", GrammaticalGender.Masculine),
         "е.",
         "е.ц.");
 
-    private readonly Unit major
+    private readonly CurrencyUnit major
         = Guard.AgainstNull(Major, nameof(Major));
 
-    private readonly Unit minor
+    private readonly CurrencyUnit minor
         = Guard.AgainstNull(Minor, nameof(Minor));
 
     private readonly string majorAbbreviation
@@ -60,7 +60,7 @@ public sealed record Currency(
 
     /// <summary>The main unit, e.g. "лев" or "евро".</summary>
     /// <exception cref="ArgumentNullException">The value is null.</exception>
-    public Unit Major
+    public CurrencyUnit Major
     {
         get => this.major;
         init => this.major = Guard.AgainstNull(
@@ -70,7 +70,7 @@ public sealed record Currency(
 
     /// <summary>The subunit (1/100 of the major unit), e.g. "стотинка" or "цент".</summary>
     /// <exception cref="ArgumentNullException">The value is null.</exception>
-    public Unit Minor
+    public CurrencyUnit Minor
     {
         get => this.minor;
         init => this.minor = Guard.AgainstNull(

@@ -32,7 +32,7 @@ internal static class AmountToWords
 
     public static string Convert(
         decimal amount,
-        Currency currency,
+        CurrencyDefinition currency,
         AmountFormat format = default)
     {
         ArgumentNullException.ThrowIfNull(currency);
