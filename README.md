@@ -101,6 +101,45 @@ same way as `InWords()`. The options are copied when the formatter is created, s
 later has no effect. A formatter is immutable and thread-safe: create it once and share it, for
 example as a singleton behind `IAmountWordsFormatter`.
 
+## Dependency injection
+
+For ASP.NET Core and other apps that use `Microsoft.Extensions.DependencyInjection`, install the
+companion package:
+
+```bash
+dotnet add package FluentBgWords.DependencyInjection
+```
+
+Configure the formatter once in `Program.cs`:
+
+```csharp
+using FluentBgWords;
+
+builder.Services.AddFluentBgWords(options =>
+{
+    options.Currency = CurrencyDefinition.EurWithEurocents;
+    options.SubunitsAsDigits = true;
+    options.Abbreviated = true;
+    options.Capitalized = true;
+});
+```
+
+Then inject `IAmountWordsFormatter` wherever you need it:
+
+```csharp
+public class InvoiceService(IAmountWordsFormatter formatter)
+{
+    public string TotalInWords(decimal total) => formatter.Format(total);
+}
+```
+
+`AddFluentBgWords()` is in the `Microsoft.Extensions.DependencyInjection` namespace, so it needs
+no extra `using`. Without a delegate, it uses the defaults: euro, no other options. The formatter
+is a singleton, and **the options are read once, when the formatter is created**: changing them
+later has no effect. A `null` `Currency` fails options validation when the app starts. See the
+[package README](https://github.com/aleksandarMilev/fluent-bg-words/blob/master/src/FluentBgWords.DependencyInjection/README.md)
+for details.
+
 ## Supported currencies
 
 | Currency                              | Major           | Minor                | Abbreviations |
