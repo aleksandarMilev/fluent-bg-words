@@ -78,6 +78,29 @@ throws `ArgumentNullException`, and an empty, whitespace-only or padded value th
 undefined `GrammaticalGender` value, such as `(GrammaticalGender)42`, throws
 `ArgumentOutOfRangeException`.
 
+## Reusable formatter
+
+To configure the currency and options once and apply them to many amounts, use
+`AmountWordsFormatter`:
+
+```csharp
+var formatter = new AmountWordsFormatter(new AmountWordsOptions
+{
+    Currency = CurrencyDefinition.Bgn,
+    SubunitsAsDigits = true,
+    Abbreviated = true,
+    Capitalized = true,
+});
+
+formatter.Format(167.42m); // Сто шестдесет и седем лв. и 42 ст.
+formatter.Format(5m);      // Пет лв.
+```
+
+It writes the same text as the fluent API with the same settings, and validates amounts the
+same way as `InWords()`. The options are copied when the formatter is created, so changing them
+later has no effect. A formatter is immutable and thread-safe: create it once and share it, for
+example as a singleton behind `IAmountWordsFormatter`.
+
 ## Supported currencies
 
 | Currency                              | Major           | Minor                | Abbreviations |
