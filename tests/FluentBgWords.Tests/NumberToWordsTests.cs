@@ -84,27 +84,27 @@ public class NumberToWordsTests
         string expected)
         => Assert.Equal(
             expected,
-            NumberToWords.Convert(number, Gender.Masculine));
+            NumberToWords.Convert(number, GrammaticalGender.Masculine));
 
     [Theory]
-    [InlineData(1L, Gender.Feminine, "една")]
-    [InlineData(2L, Gender.Feminine, "две")]
-    [InlineData(21L, Gender.Feminine, "двадесет и една")]
-    [InlineData(1_001L, Gender.Feminine, "хиляда и една")]
-    [InlineData(1L, Gender.Neuter, "едно")]
-    [InlineData(2L, Gender.Neuter, "две")]
-    [InlineData(22L, Gender.Neuter, "двадесет и две")]
-    [InlineData(2_000_001L, Gender.Neuter, "два милиона и едно")]
-    [InlineData(22_000L, Gender.Neuter, "двадесет и две хиляди")]
-    [InlineData(21_000_000L, Gender.Feminine, "двадесет и един милиона")]
-    [InlineData(22_000_000_000L, Gender.Feminine, "двадесет и два милиарда")]
+    [InlineData(1L, GrammaticalGender.Feminine, "една")]
+    [InlineData(2L, GrammaticalGender.Feminine, "две")]
+    [InlineData(21L, GrammaticalGender.Feminine, "двадесет и една")]
+    [InlineData(1_001L, GrammaticalGender.Feminine, "хиляда и една")]
+    [InlineData(1L, GrammaticalGender.Neuter, "едно")]
+    [InlineData(2L, GrammaticalGender.Neuter, "две")]
+    [InlineData(22L, GrammaticalGender.Neuter, "двадесет и две")]
+    [InlineData(2_000_001L, GrammaticalGender.Neuter, "два милиона и едно")]
+    [InlineData(22_000L, GrammaticalGender.Neuter, "двадесет и две хиляди")]
+    [InlineData(21_000_000L, GrammaticalGender.Feminine, "двадесет и един милиона")]
+    [InlineData(22_000_000_000L, GrammaticalGender.Feminine, "двадесет и два милиарда")]
     // 3+ groups: expected values pin current behavior (single "и" before the last group).
     // NEEDS NATIVE VERIFICATION, see CODE_REVIEW.md TEST-01.
-    [InlineData(1_001_001_001L, Gender.Neuter, "един милиард един милион хиляда и едно")]
-    [InlineData(2_002_002_002L, Gender.Neuter, "два милиарда два милиона две хиляди и две")]
+    [InlineData(1_001_001_001L, GrammaticalGender.Neuter, "един милиард един милион хиляда и едно")]
+    [InlineData(2_002_002_002L, GrammaticalGender.Neuter, "два милиарда два милиона две хиляди и две")]
     public void Convert_GenderAffectsOnlyLastGroup(
         long number,
-        Gender gender,
+        GrammaticalGender gender,
         string expected)
         => Assert.Equal(
             expected,

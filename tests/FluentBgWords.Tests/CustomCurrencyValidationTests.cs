@@ -3,10 +3,10 @@
 public class CustomCurrencyValidationTests
 {
     [Fact]
-    public void Unit_NullSingular_ThrowsArgumentNullException()
+    public void CurrencyUnit_NullSingular_ThrowsArgumentNullException()
     {
         var exception = Assert.Throws<ArgumentNullException>(
-            () => new Unit(null!, "лева", Gender.Masculine));
+            () => new CurrencyUnit(null!, "лева", GrammaticalGender.Masculine));
 
         Assert.Equal("Singular", exception.ParamName);
     }
@@ -16,19 +16,19 @@ public class CustomCurrencyValidationTests
     [InlineData(" ")]
     [InlineData(" лев")]
     [InlineData("лев ")]
-    public void Unit_BlankOrPaddedSingular_ThrowsArgumentException(string singular)
+    public void CurrencyUnit_BlankOrPaddedSingular_ThrowsArgumentException(string singular)
     {
         var exception = Assert.Throws<ArgumentException>(
-            () => new Unit(singular, "лева", Gender.Masculine));
+            () => new CurrencyUnit(singular, "лева", GrammaticalGender.Masculine));
 
         Assert.Equal("Singular", exception.ParamName);
     }
 
     [Fact]
-    public void Unit_NullCountForm_ThrowsArgumentNullException()
+    public void CurrencyUnit_NullCountForm_ThrowsArgumentNullException()
     {
         var exception = Assert.Throws<ArgumentNullException>(
-            () => new Unit("лев", null!, Gender.Masculine));
+            () => new CurrencyUnit("лев", null!, GrammaticalGender.Masculine));
 
         Assert.Equal("CountForm", exception.ParamName);
     }
@@ -38,21 +38,21 @@ public class CustomCurrencyValidationTests
     [InlineData(" ")]
     [InlineData(" лев")]
     [InlineData("лев ")]
-    public void Unit_BlankOrPaddedCountForm_ThrowsArgumentException(string countForm)
+    public void CurrencyUnit_BlankOrPaddedCountForm_ThrowsArgumentException(string countForm)
     {
         var exception = Assert.Throws<ArgumentException>(
-            () => new Unit("лев", countForm, Gender.Masculine));
+            () => new CurrencyUnit("лев", countForm, GrammaticalGender.Masculine));
 
         Assert.Equal("CountForm", exception.ParamName);
     }
 
     [Fact]
-    public void Currency_NullMajor_ThrowsArgumentNullException()
+    public void CurrencyDefinition_NullMajor_ThrowsArgumentNullException()
     {
         var exception = Assert.Throws<ArgumentNullException>(
-            () => new Currency(
+            () => new CurrencyDefinition(
                 null!,
-                Currency.Bgn.Minor,
+                CurrencyDefinition.Bgn.Minor,
                 "лв.",
                 "ст."));
 
@@ -60,11 +60,11 @@ public class CustomCurrencyValidationTests
     }
 
     [Fact]
-    public void Currency_NullMinor_ThrowsArgumentNullException()
+    public void CurrencyDefinition_NullMinor_ThrowsArgumentNullException()
     {
         var exception = Assert.Throws<ArgumentNullException>(
-            () => new Currency(
-                Currency.Bgn.Major,
+            () => new CurrencyDefinition(
+                CurrencyDefinition.Bgn.Major,
                 null!,
                 "лв.",
                 "ст."));
@@ -73,12 +73,12 @@ public class CustomCurrencyValidationTests
     }
 
     [Fact]
-    public void Currency_NullMajorAbbreviation_ThrowsArgumentNullException()
+    public void CurrencyDefinition_NullMajorAbbreviation_ThrowsArgumentNullException()
     {
         var exception = Assert.Throws<ArgumentNullException>(
-            () => new Currency(
-                Currency.Bgn.Major,
-                Currency.Bgn.Minor,
+            () => new CurrencyDefinition(
+                CurrencyDefinition.Bgn.Major,
+                CurrencyDefinition.Bgn.Minor,
                 null!,
                 "ст."));
 
@@ -89,12 +89,12 @@ public class CustomCurrencyValidationTests
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(" лв.")]
-    public void Currency_BlankOrPaddedMajorAbbreviation_ThrowsArgumentException(string abbreviation)
+    public void CurrencyDefinition_BlankOrPaddedMajorAbbreviation_ThrowsArgumentException(string abbreviation)
     {
         var exception = Assert.Throws<ArgumentException>(
-            () => new Currency(
-                Currency.Bgn.Major,
-                Currency.Bgn.Minor,
+            () => new CurrencyDefinition(
+                CurrencyDefinition.Bgn.Major,
+                CurrencyDefinition.Bgn.Minor,
                 abbreviation,
                 "ст."));
 
@@ -102,12 +102,12 @@ public class CustomCurrencyValidationTests
     }
 
     [Fact]
-    public void Currency_NullMinorAbbreviation_ThrowsArgumentNullException()
+    public void CurrencyDefinition_NullMinorAbbreviation_ThrowsArgumentNullException()
     {
         var exception = Assert.Throws<ArgumentNullException>(
-            () => new Currency(
-                Currency.Bgn.Major,
-                Currency.Bgn.Minor,
+            () => new CurrencyDefinition(
+                CurrencyDefinition.Bgn.Major,
+                CurrencyDefinition.Bgn.Minor,
                 "лв.",
                 null!));
 
@@ -118,12 +118,12 @@ public class CustomCurrencyValidationTests
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(" лв.")]
-    public void Currency_BlankOrPaddedMinorAbbreviation_ThrowsArgumentException(string abbreviation)
+    public void CurrencyDefinition_BlankOrPaddedMinorAbbreviation_ThrowsArgumentException(string abbreviation)
     {
         var exception = Assert.Throws<ArgumentException>(
-            () => new Currency(
-                Currency.Bgn.Major,
-                Currency.Bgn.Minor,
+            () => new CurrencyDefinition(
+                CurrencyDefinition.Bgn.Major,
+                CurrencyDefinition.Bgn.Minor,
                 "лв.",
                 abbreviation));
 
@@ -131,28 +131,28 @@ public class CustomCurrencyValidationTests
     }
 
     [Fact]
-    public void Currency_WithEmptyMajorAbbreviation_ThrowsArgumentException()
+    public void CurrencyDefinition_WithEmptyMajorAbbreviation_ThrowsArgumentException()
     {
         var exception = Assert.Throws<ArgumentException>(
-            () => Currency.Bgn with { MajorAbbreviation = "" });
+            () => CurrencyDefinition.Bgn with { MajorAbbreviation = "" });
 
         Assert.Equal("MajorAbbreviation", exception.ParamName);
     }
 
     [Fact]
-    public void Currency_WithNullMinor_ThrowsArgumentNullException()
+    public void CurrencyDefinition_WithNullMinor_ThrowsArgumentNullException()
     {
         var exception = Assert.Throws<ArgumentNullException>(
-            () => Currency.Eur with { Minor = null! });
+            () => CurrencyDefinition.Eur with { Minor = null! });
 
         Assert.Equal("Minor", exception.ParamName);
     }
 
     [Fact]
-    public void Unit_WithWhiteSpaceSingular_ThrowsArgumentException()
+    public void CurrencyUnit_WithWhiteSpaceSingular_ThrowsArgumentException()
     {
         var exception = Assert.Throws<ArgumentException>(
-            () => Currency.Bgn.Major with { Singular = " " });
+            () => CurrencyDefinition.Bgn.Major with { Singular = " " });
 
         Assert.Equal("Singular", exception.ParamName);
     }
@@ -160,10 +160,10 @@ public class CustomCurrencyValidationTests
     [Theory]
     [InlineData(42)]
     [InlineData(-1)]
-    public void Unit_UndefinedGender_ThrowsArgumentOutOfRangeException(int gender)
+    public void CurrencyUnit_UndefinedGender_ThrowsArgumentOutOfRangeException(int gender)
     {
         var exception = Assert.Throws<ArgumentOutOfRangeException>(
-            () => new Unit("лев", "лева", (Gender)gender));
+            () => new CurrencyUnit("лев", "лева", (GrammaticalGender)gender));
 
         Assert.Equal("Gender", exception.ParamName);
     }
@@ -171,10 +171,10 @@ public class CustomCurrencyValidationTests
     [Theory]
     [InlineData(42)]
     [InlineData(-1)]
-    public void Unit_WithUndefinedGender_ThrowsArgumentOutOfRangeException(int gender)
+    public void CurrencyUnit_WithUndefinedGender_ThrowsArgumentOutOfRangeException(int gender)
     {
         var exception = Assert.Throws<ArgumentOutOfRangeException>(
-            () => Currency.Bgn.Major with { Gender = (Gender)gender });
+            () => CurrencyDefinition.Bgn.Major with { Gender = (GrammaticalGender)gender });
 
         Assert.Equal("Gender", exception.ParamName);
     }
@@ -182,9 +182,9 @@ public class CustomCurrencyValidationTests
     [Fact]
     public void As_ValidCustomCurrency_WritesAmount()
     {
-        var sek = new Currency(
-            new Unit("крона", "крони", Gender.Feminine),
-            new Unit("йоре", "йоре", Gender.Neuter),
+        var sek = new CurrencyDefinition(
+            new CurrencyUnit("крона", "крони", GrammaticalGender.Feminine),
+            new CurrencyUnit("йоре", "йоре", GrammaticalGender.Neuter),
             "кр.",
             "й.");
 
@@ -194,18 +194,18 @@ public class CustomCurrencyValidationTests
     }
 
     [Fact]
-    public void Unit_EqualValues_AreEqual()
+    public void CurrencyUnit_EqualValues_AreEqual()
         => Assert.Equal(
-            new Unit("лев", "лева", Gender.Masculine),
-            new Unit("лев", "лева", Gender.Masculine));
+            new CurrencyUnit("лев", "лева", GrammaticalGender.Masculine),
+            new CurrencyUnit("лев", "лева", GrammaticalGender.Masculine));
 
     [Fact]
-    public void Currency_EqualValues_AreEqual()
+    public void CurrencyDefinition_EqualValues_AreEqual()
         => Assert.Equal(
-            Currency.Bgn,
-            new Currency(
-                new Unit("лев", "лева", Gender.Masculine),
-                new Unit("стотинка", "стотинки", Gender.Feminine),
+            CurrencyDefinition.Bgn,
+            new CurrencyDefinition(
+                new CurrencyUnit("лев", "лева", GrammaticalGender.Masculine),
+                new CurrencyUnit("стотинка", "стотинки", GrammaticalGender.Feminine),
                 "лв.",
                 "ст."));
 }

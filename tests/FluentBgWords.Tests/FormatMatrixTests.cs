@@ -50,12 +50,12 @@ public class FormatMatrixTests
             words.ToString());
     }
 
-    private static Currency CurrencyFrom(string code)
+    private static CurrencyDefinition CurrencyFrom(string code)
         => code switch
         {
-            "EUR" => Currency.Eur,
-            "EUR_CENTS" => Currency.EurWithEurocents,
-            "BGN" => Currency.Bgn,
+            "EUR" => CurrencyDefinition.Eur,
+            "EUR_CENTS" => CurrencyDefinition.EurWithEurocents,
+            "BGN" => CurrencyDefinition.Bgn,
             _ => throw new ArgumentOutOfRangeException(
                 nameof(code),
                 code,

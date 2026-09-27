@@ -4,7 +4,7 @@ using FluentBgWords;
 
 internal sealed record Scale(
     long Divisor,
-    Gender Gender,
+    GrammaticalGender Gender,
     string Singular,
     string Plural,
     bool OmitOne);

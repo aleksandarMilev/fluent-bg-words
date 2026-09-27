@@ -4,7 +4,7 @@
 /// Grammatical gender of the noun that follows a number.
 /// Determines forms such as "един/една/едно" and "два/две".
 /// </summary>
-public enum Gender
+public enum GrammaticalGender
 {
     /// <summary>Masculine: "един лев", "два лева".</summary>
     Masculine,

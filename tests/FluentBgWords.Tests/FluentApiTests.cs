@@ -59,9 +59,9 @@ public class FluentApiTests
     [Fact]
     public void As_CustomCurrency()
     {
-        var usd = new Currency(
-            new Unit("долар", "долара", Gender.Masculine),
-            new Unit("цент", "цента", Gender.Masculine),
+        var usd = new CurrencyDefinition(
+            new CurrencyUnit("долар", "долара", GrammaticalGender.Masculine),
+            new CurrencyUnit("цент", "цента", GrammaticalGender.Masculine),
             "$",
             "ц.");
 
