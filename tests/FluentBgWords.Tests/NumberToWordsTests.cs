@@ -111,10 +111,9 @@ public class NumberToWordsTests
             NumberToWords.Convert(number, gender));
 
     [Fact]
-    public void Convert_Negative_PrefixesMinus()
-        => Assert.Equal(
-            "минус двадесет и един",
-            NumberToWords.Convert(-21));
+    public void Convert_Negative_ThrowsArgumentOutOfRangeException()
+        => Assert.Throws<ArgumentOutOfRangeException>(
+            static () => NumberToWords.Convert(-21));
 
     [Fact]
     public void Convert_AboveMaxValue_Throws()

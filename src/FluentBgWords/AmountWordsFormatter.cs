@@ -14,6 +14,11 @@ using FluentBgWords.Internals;
 /// </remarks>
 public sealed class AmountWordsFormatter : IAmountWordsFormatter
 {
+    // Same text as AmountWordsOptionsValidator.NullCurrencyMessage in FluentBgWords.DependencyInjection.
+    private const string NullCurrencyMessage =
+        $"{nameof(AmountWordsOptions)}.{nameof(AmountWordsOptions.Currency)} must not be null. " +
+        $"Set it to a {nameof(CurrencyDefinition)}, such as {nameof(CurrencyDefinition)}.{nameof(CurrencyDefinition.Eur)}.";
+
     private readonly AmountWordsSettings settings;
 
     /// <summary>Creates a formatter with the default settings: euro, no other options.</summary>
@@ -35,7 +40,7 @@ public sealed class AmountWordsFormatter : IAmountWordsFormatter
         {
             throw new ArgumentNullException(
                 nameof(options),
-                $"{nameof(AmountWordsOptions)}.{nameof(AmountWordsOptions.Currency)} must not be null.");
+                NullCurrencyMessage);
         }
 
         this.settings = new(

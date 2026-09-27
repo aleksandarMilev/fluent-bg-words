@@ -52,12 +52,12 @@ public sealed record CurrencyDefinition(
         = Guard.AgainstNull(Minor, nameof(Minor));
 
     private readonly string majorAbbreviation
-        = Guard.AgainstLeadingOrTrailingWhitespace(
+        = Guard.AgainstBlankOrPadded(
             MajorAbbreviation,
             nameof(MajorAbbreviation));
 
     private readonly string minorAbbreviation
-        = Guard.AgainstLeadingOrTrailingWhitespace(
+        = Guard.AgainstBlankOrPadded(
             MinorAbbreviation,
             nameof(MinorAbbreviation));
 
@@ -87,7 +87,7 @@ public sealed record CurrencyDefinition(
     public string MajorAbbreviation
     {
         get => this.majorAbbreviation;
-        init => this.majorAbbreviation = Guard.AgainstLeadingOrTrailingWhitespace(
+        init => this.majorAbbreviation = Guard.AgainstBlankOrPadded(
             value,
             nameof(this.MajorAbbreviation));
     }
@@ -98,7 +98,7 @@ public sealed record CurrencyDefinition(
     public string MinorAbbreviation
     {
         get => this.minorAbbreviation;
-        init => this.minorAbbreviation = Guard.AgainstLeadingOrTrailingWhitespace(
+        init => this.minorAbbreviation = Guard.AgainstBlankOrPadded(
             value,
             nameof(this.MinorAbbreviation));
     }
