@@ -63,7 +63,8 @@ The conventions that are easy to miss:
 - Encodings: `.cs`, `.csproj`, `.props`, `.targets` and `.xml` files are UTF-8 **with** BOM;
   `.json`, `.yml` and `.yaml` files are UTF-8 without BOM.
 - LF line endings and a final newline in every file. C# is indented with 4 spaces; project,
-  XML, JSON and YAML files with 2.
+  XML, JSON and YAML files with 2. `.gitattributes` makes git check out every text file with LF,
+  so you don't need any special git settings (such as `core.autocrlf`), on Windows either.
 
 **Known pitfall:** running `dotnet format` (without `--verify-no-changes`) on these
 multi-targeted projects can leave `<<<<<<<` conflict markers in source files. Run
@@ -85,10 +86,11 @@ to make a test pass.**
   a grammar rule or an official document), and the tests change in the same pull request as
   the code.
 - New behavior and bug fixes come with tests. Tests are grouped by area, one class per area
-  (for example `NumberToWordsTests`, `FormatMatrixTests`, `PublicApiEdgeTests`), and named
-  `Method_Scenario_ExpectedResult`.
-- Every code example in `README.md` is pinned by a test in `ReadmeExamplesTests`; the comment
-  above each test names the README section. If you change an example, change its test.
+  (for example `NumberToWordsTests`, `FormatMatrixTests`, `PublicApiEdgeTests`), and most are
+  named `Method_Scenario_ExpectedResult`.
+- Every code example in `README.md` is pinned by a test, in `ReadmeExamplesTests` or
+  `FluentApiTests`; in `ReadmeExamplesTests`, the comment above each test names the README
+  section. If you change an example, change its test.
 - Some expected values are marked `// NEEDS NATIVE VERIFICATION, see issue #7.` They pin the
   current output for cases that haven't been checked against a grammar source yet (the "и"
   between three or more number groups, and spelled-out numbers next to abbreviations). They're
@@ -103,8 +105,9 @@ Package validation runs when a package is packed with any version that doesn't s
 released version. CI packs both packages on every pull request, so an unintended breaking
 change fails the `build` check.
 
-Local packs default to version `0.0.0-dev` and skip this check. To run it locally, pack with an
-explicit version into a directory outside the repository:
+Local packs default to version `0.0.0-dev`, which skips the comparison with the released
+version. To run it locally, pack with an explicit version into a directory outside the
+repository:
 
 ```bash
 dotnet pack src/FluentBgWords -c Release -p:Version=0.2.1-local -o <temp dir>
