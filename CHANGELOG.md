@@ -5,6 +5,8 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-09-27
+
 ## [Unreleased]
 
 ### Changed
@@ -24,13 +26,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Migrating from 0.1.x:
 
-| Before                                           | After                                                  |
-| ------------------------------------------------ | ------------------------------------------------------ |
-| `Gender`                                         | `GrammaticalGender`                                    |
-| `Unit`                                           | `CurrencyUnit`                                         |
-| `Currency`                                       | `CurrencyDefinition`                                   |
-| `AmountWordsExtensions`                          | `AmountInWordsExtensions`                              |
-| Invalid-amount exceptions caught at `ToString()` | Catch exceptions around `InWords()`, not `ToString()`  |
+| Before                                           | After                                                 |
+| ------------------------------------------------ | ----------------------------------------------------- |
+| `Gender`                                         | `GrammaticalGender`                                   |
+| `Unit`                                           | `CurrencyUnit`                                        |
+| `Currency`                                       | `CurrencyDefinition`                                  |
+| `AmountWordsExtensions`                          | `AmountInWordsExtensions`                             |
+| Invalid-amount exceptions caught at `ToString()` | Catch exceptions around `InWords()`, not `ToString()` |
 
 If you call `InWords()` and `ToString()` in the same expression, such as
 `amount.InWords().AsBgn().ToString()`, a `try`/`catch` around that expression keeps working.
@@ -111,7 +113,5 @@ If you call `InWords()` and `ToString()` in the same expression, such as
 - Formatting options: `WithSubunitsAsDigits()`, `Abbreviated()` and `Capitalized()`.
 - Targets `net8.0` and `net10.0`.
 
-[Unreleased]: https://github.com/aleksandarMilev/fluent-bg-words/compare/v0.1.2...HEAD
-[0.1.2]: https://github.com/aleksandarMilev/fluent-bg-words/compare/v0.1.1...v0.1.2
-[0.1.1]: https://github.com/aleksandarMilev/fluent-bg-words/compare/v0.1.0...v0.1.1
-[0.1.0]: https://github.com/aleksandarMilev/fluent-bg-words/releases/tag/v0.1.0
+  [Unreleased]: https://github.com/aleksandarMilev/fluent-bg-words/compare/v0.2.0...HEAD
+  [0.2.0]: https://github.com/aleksandarMilev/fluent-bg-words/compare/v0.1.2...v0.2.0
