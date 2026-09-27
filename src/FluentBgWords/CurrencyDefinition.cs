@@ -4,6 +4,9 @@ using FluentBgWords.Internals;
 
 /// <summary>
 /// A currency: a major unit (лев, евро), a minor unit (стотинка, цент) and their abbreviations.
+/// The values are validated on creation and in <see langword="with"/> expressions: both units
+/// must be non-null, and both abbreviations must be non-empty with no leading or trailing
+/// whitespace.
 /// </summary>
 /// <param name="Major">The main unit, e.g. "лев" or "евро".</param>
 /// <param name="Minor">The subunit (1/100 of the major unit), e.g. "стотинка" or "цент".</param>
