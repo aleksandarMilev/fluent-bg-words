@@ -40,6 +40,17 @@ public class FluentApiTests
     }
 
     [Fact]
+    public void InWords_DefaultCurrency_EqualsAsEur()
+    {
+        var implicitEuro = 5m.InWords();
+        var explicitEuro = 5m.InWords().AsEur();
+
+        Assert.Equal(explicitEuro, implicitEuro);
+        Assert.True(implicitEuro == explicitEuro);
+        Assert.Equal(explicitEuro.GetHashCode(), implicitEuro.GetHashCode());
+    }
+
+    [Fact]
     public void Default_WritesZeroEuro()
         => Assert.Equal(
             "нула евро",
