@@ -1,0 +1,18 @@
+﻿<Project>
+  <!-- MSBuild only imports the nearest Directory.Build.props, so pull in the repository-wide one. -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <!-- Metadata shared by every package in src/. Package-specific properties stay in each csproj. -->
+  <PropertyGroup>
+    <Version>0.0.0-dev</Version>
+    <Authors>Aleksandar Milev</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright (c) 2026 Aleksandar Milev</Copyright>
+    <PackageProjectUrl>https://github.com/aleksandarMilev/fluent-bg-words</PackageProjectUrl>
+    <PackageReleaseNotes>See https://github.com/aleksandarMilev/fluent-bg-words/blob/master/CHANGELOG.md</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/aleksandarMilev/fluent-bg-words</RepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+</Project>
