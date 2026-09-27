@@ -8,7 +8,7 @@ public class PublicApiEdgeTests
     public void As_Null_ThrowsArgumentNullException()
     {
         var exception = Assert.Throws<ArgumentNullException>(
-            () => 5m.InWords().As(null!).ToString());
+            static () => 5m.InWords().As(null!).ToString());
 
         Assert.Equal("currency", exception.ParamName);
     }
@@ -28,12 +28,12 @@ public class PublicApiEdgeTests
     [Fact]
     public void InWords_LongMinValue_Throws()
         => Assert.Throws<ArgumentOutOfRangeException>(
-            () => long.MinValue.InWords().ToString());
+            static () => long.MinValue.InWords().ToString());
 
     [Fact]
     public void InWords_LongMaxValue_Throws()
         => Assert.Throws<ArgumentOutOfRangeException>(
-            () => long.MaxValue.InWords().ToString());
+            static () => long.MaxValue.InWords().ToString());
 
     [Fact]
     public void InWords_MaxAmount_WritesWords()
@@ -57,17 +57,17 @@ public class PublicApiEdgeTests
     [Fact]
     public void InWords_DecimalMaxValue_Throws()
         => Assert.Throws<ArgumentOutOfRangeException>(
-            () => decimal.MaxValue.InWords().ToString());
+            static () => decimal.MaxValue.InWords().ToString());
 
     [Fact]
     public void InWords_DecimalMinValue_Throws()
         => Assert.Throws<ArgumentOutOfRangeException>(
-            () => decimal.MinValue.InWords().ToString());
+            static () => decimal.MinValue.InWords().ToString());
 
     [Fact]
     public void InWords_ThreeDecimalsAboveMaxAmount_ThrowsArgumentException()
         => Assert.Throws<ArgumentException>(
-            () => 999_999_999_999.991m.InWords().ToString());
+            static () => 999_999_999_999.991m.InWords().ToString());
 
     [Fact]
     public void InWords_NegativeZeroWithScale_WritesZeroWithoutMinus()
@@ -125,7 +125,7 @@ public class PublicApiEdgeTests
     public void InWords_MoreThanTwoDecimals_ThrowsFromInWords()
     {
         var exception = Assert.Throws<ArgumentException>(
-            () => 1.234m.InWords());
+            static () => 1.234m.InWords());
 
         Assert.Equal("amount", exception.ParamName);
     }
@@ -134,7 +134,7 @@ public class PublicApiEdgeTests
     public void InWords_LongMinValue_ThrowsFromInWords()
     {
         var exception = Assert.Throws<ArgumentOutOfRangeException>(
-            () => long.MinValue.InWords());
+            static () => long.MinValue.InWords());
 
         Assert.Equal("amount", exception.ParamName);
     }
@@ -158,7 +158,12 @@ public class PublicApiEdgeTests
     [InlineData("-999999999999.99")]
     public void InWords_ValidAmount_StringInterpolationDoesNotThrow(string amount)
     {
-        var words = Parse(amount).InWords().AsBgn().WithSubunitsAsDigits().Abbreviated().Capitalized();
+        var words = Parse(amount)
+            .InWords()
+            .AsBgn()
+            .WithSubunitsAsDigits()
+            .Abbreviated()
+            .Capitalized();
 
         var exception = Record.Exception(() => $"{words}");
 

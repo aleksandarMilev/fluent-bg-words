@@ -21,7 +21,7 @@ public class ServiceCollectionExtensionsTests
     [Fact]
     public void AddFluentBgWords_WithConfiguration_AppliesOptions()
     {
-        using var provider = Build(new ServiceCollection().AddFluentBgWords(options =>
+        using var provider = Build(new ServiceCollection().AddFluentBgWords(static options =>
         {
             options.Currency = CurrencyDefinition.Bgn;
             options.SubunitsAsDigits = true;
@@ -53,7 +53,9 @@ public class ServiceCollectionExtensionsTests
             .AddSingleton<IAmountWordsFormatter, FixedFormatter>()
             .AddFluentBgWords();
 
-        Assert.Single(services, d => d.ServiceType == typeof(IAmountWordsFormatter));
+        Assert.Single(
+            services,
+            static d => d.ServiceType == typeof(IAmountWordsFormatter));
 
         using var provider = Build(services);
 
@@ -64,10 +66,12 @@ public class ServiceCollectionExtensionsTests
     public void AddFluentBgWords_CalledTwice_RegistersOneFormatterAndAppliesBothConfigurations()
     {
         var services = new ServiceCollection()
-            .AddFluentBgWords(options => options.Currency = CurrencyDefinition.Bgn)
-            .AddFluentBgWords(options => options.Abbreviated = true);
+            .AddFluentBgWords(static options => options.Currency = CurrencyDefinition.Bgn)
+            .AddFluentBgWords(static options => options.Abbreviated = true);
 
-        Assert.Single(services, d => d.ServiceType == typeof(IAmountWordsFormatter));
+        Assert.Single(
+            services,
+            static d => d.ServiceType == typeof(IAmountWordsFormatter));
 
         using (var provider = Build(services))
         {
@@ -76,9 +80,8 @@ public class ServiceCollectionExtensionsTests
                 provider.GetRequiredService<IAmountWordsFormatter>().Format(5.42m));
         }
 
-        // A null currency is validated once, not once per call.
         var invalid = new ServiceCollection()
-            .AddFluentBgWords(options => options.Currency = null!)
+            .AddFluentBgWords(static options => options.Currency = null!)
             .AddFluentBgWords();
 
         using var invalidProvider = Build(invalid);
@@ -95,7 +98,7 @@ public class ServiceCollectionExtensionsTests
     public void AddFluentBgWords_NullCurrency_ThrowsOptionsValidationException()
     {
         using var provider = Build(new ServiceCollection().AddFluentBgWords(
-            options => options.Currency = null!));
+            static options => options.Currency = null!));
 
         var exception = Assert.Throws<OptionsValidationException>(
             () => provider.GetRequiredService<IAmountWordsFormatter>());
@@ -111,8 +114,9 @@ public class ServiceCollectionExtensionsTests
 
         var withoutConfigure = Assert.Throws<ArgumentNullException>(
             () => services.AddFluentBgWords());
+
         var withConfigure = Assert.Throws<ArgumentNullException>(
-            () => services.AddFluentBgWords(_ => { }));
+            () => services.AddFluentBgWords(static _ => { }));
 
         Assert.Equal("services", withoutConfigure.ParamName);
         Assert.Equal("services", withConfigure.ParamName);
@@ -133,7 +137,7 @@ public class ServiceCollectionExtensionsTests
         var services = new ServiceCollection();
 
         Assert.Same(services, services.AddFluentBgWords());
-        Assert.Same(services, services.AddFluentBgWords(_ => { }));
+        Assert.Same(services, services.AddFluentBgWords(static _ => { }));
     }
 
     private static ServiceProvider Build(IServiceCollection services)

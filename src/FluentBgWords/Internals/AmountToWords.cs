@@ -16,7 +16,6 @@ internal static class AmountToWords
                 nameof(amount));
         }
 
-        // Separate bounds, so ActualValue is the caller's value with its sign.
         ArgumentOutOfRangeException.ThrowIfGreaterThan(
             amount,
             MaxAmount,

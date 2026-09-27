@@ -77,7 +77,7 @@ public static class FluentBgWordsServiceCollectionExtensions
             ServiceDescriptor.Singleton<IValidateOptions<AmountWordsOptions>, AmountWordsOptionsValidator>());
 
         services.TryAddSingleton<IAmountWordsFormatter>(
-            provider => new AmountWordsFormatter(
+            static provider => new AmountWordsFormatter(
                 provider.GetRequiredService<IOptions<AmountWordsOptions>>().Value));
 
         return services;

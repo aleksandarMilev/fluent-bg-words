@@ -2,11 +2,23 @@ name: Bug report
 description: Something else is wrong, e.g. an exception, a crash, or a packaging problem.
 labels: ["bug"]
 body:
+  - type: dropdown
+    id: package
+    attributes:
+      label: Package
+      description: Which package is affected?
+      options:
+        - FluentBgWords
+        - FluentBgWords.DependencyInjection
+        - Both
+    validations:
+      required: true
+
   - type: input
     id: package-version
     attributes:
       label: FluentBgWords version
-      placeholder: 0.1.1
+      placeholder: 0.2.0
     validations:
       required: true
 

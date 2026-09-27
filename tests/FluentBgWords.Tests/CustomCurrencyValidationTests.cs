@@ -6,7 +6,7 @@ public class CustomCurrencyValidationTests
     public void CurrencyUnit_NullSingular_ThrowsArgumentNullException()
     {
         var exception = Assert.Throws<ArgumentNullException>(
-            () => new CurrencyUnit(null!, "лева", GrammaticalGender.Masculine));
+            static () => new CurrencyUnit(null!, "лева", GrammaticalGender.Masculine));
 
         Assert.Equal("Singular", exception.ParamName);
     }
@@ -28,7 +28,7 @@ public class CustomCurrencyValidationTests
     public void CurrencyUnit_NullCountForm_ThrowsArgumentNullException()
     {
         var exception = Assert.Throws<ArgumentNullException>(
-            () => new CurrencyUnit("лев", null!, GrammaticalGender.Masculine));
+            static () => new CurrencyUnit("лев", null!, GrammaticalGender.Masculine));
 
         Assert.Equal("CountForm", exception.ParamName);
     }
@@ -38,7 +38,8 @@ public class CustomCurrencyValidationTests
     [InlineData(" ")]
     [InlineData(" лев")]
     [InlineData("лев ")]
-    public void CurrencyUnit_BlankOrPaddedCountForm_ThrowsArgumentException(string countForm)
+    public void CurrencyUnit_BlankOrPaddedCountForm_ThrowsArgumentException(
+        string countForm)
     {
         var exception = Assert.Throws<ArgumentException>(
             () => new CurrencyUnit("лев", countForm, GrammaticalGender.Masculine));
@@ -50,7 +51,7 @@ public class CustomCurrencyValidationTests
     public void CurrencyDefinition_NullMajor_ThrowsArgumentNullException()
     {
         var exception = Assert.Throws<ArgumentNullException>(
-            () => new CurrencyDefinition(
+            static () => new CurrencyDefinition(
                 null!,
                 CurrencyDefinition.Bgn.Minor,
                 "лв.",
@@ -63,7 +64,7 @@ public class CustomCurrencyValidationTests
     public void CurrencyDefinition_NullMinor_ThrowsArgumentNullException()
     {
         var exception = Assert.Throws<ArgumentNullException>(
-            () => new CurrencyDefinition(
+            static () => new CurrencyDefinition(
                 CurrencyDefinition.Bgn.Major,
                 null!,
                 "лв.",
@@ -76,7 +77,7 @@ public class CustomCurrencyValidationTests
     public void CurrencyDefinition_NullMajorAbbreviation_ThrowsArgumentNullException()
     {
         var exception = Assert.Throws<ArgumentNullException>(
-            () => new CurrencyDefinition(
+            static () => new CurrencyDefinition(
                 CurrencyDefinition.Bgn.Major,
                 CurrencyDefinition.Bgn.Minor,
                 null!,
@@ -89,7 +90,8 @@ public class CustomCurrencyValidationTests
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(" лв.")]
-    public void CurrencyDefinition_BlankOrPaddedMajorAbbreviation_ThrowsArgumentException(string abbreviation)
+    public void CurrencyDefinition_BlankOrPaddedMajorAbbreviation_ThrowsArgumentException(
+        string abbreviation)
     {
         var exception = Assert.Throws<ArgumentException>(
             () => new CurrencyDefinition(
@@ -105,7 +107,7 @@ public class CustomCurrencyValidationTests
     public void CurrencyDefinition_NullMinorAbbreviation_ThrowsArgumentNullException()
     {
         var exception = Assert.Throws<ArgumentNullException>(
-            () => new CurrencyDefinition(
+            static () => new CurrencyDefinition(
                 CurrencyDefinition.Bgn.Major,
                 CurrencyDefinition.Bgn.Minor,
                 "лв.",
@@ -118,7 +120,8 @@ public class CustomCurrencyValidationTests
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(" лв.")]
-    public void CurrencyDefinition_BlankOrPaddedMinorAbbreviation_ThrowsArgumentException(string abbreviation)
+    public void CurrencyDefinition_BlankOrPaddedMinorAbbreviation_ThrowsArgumentException(
+        string abbreviation)
     {
         var exception = Assert.Throws<ArgumentException>(
             () => new CurrencyDefinition(
@@ -134,7 +137,7 @@ public class CustomCurrencyValidationTests
     public void CurrencyDefinition_WithEmptyMajorAbbreviation_ThrowsArgumentException()
     {
         var exception = Assert.Throws<ArgumentException>(
-            () => CurrencyDefinition.Bgn with { MajorAbbreviation = "" });
+            static () => CurrencyDefinition.Bgn with { MajorAbbreviation = "" });
 
         Assert.Equal("MajorAbbreviation", exception.ParamName);
     }
@@ -143,7 +146,7 @@ public class CustomCurrencyValidationTests
     public void CurrencyDefinition_WithNullMinor_ThrowsArgumentNullException()
     {
         var exception = Assert.Throws<ArgumentNullException>(
-            () => CurrencyDefinition.Eur with { Minor = null! });
+            static () => CurrencyDefinition.Eur with { Minor = null! });
 
         Assert.Equal("Minor", exception.ParamName);
     }
@@ -152,7 +155,7 @@ public class CustomCurrencyValidationTests
     public void CurrencyUnit_WithWhiteSpaceSingular_ThrowsArgumentException()
     {
         var exception = Assert.Throws<ArgumentException>(
-            () => CurrencyDefinition.Bgn.Major with { Singular = " " });
+            static () => CurrencyDefinition.Bgn.Major with { Singular = " " });
 
         Assert.Equal("Singular", exception.ParamName);
     }
