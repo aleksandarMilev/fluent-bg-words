@@ -121,6 +121,50 @@ public class PublicApiEdgeTests
             "нула е.",
             default(AmountInWords).Abbreviated().WithSubunitsAsDigits().ToString());
 
+    [Fact]
+    public void InWords_MoreThanTwoDecimals_ThrowsFromInWords()
+    {
+        var exception = Assert.Throws<ArgumentException>(
+            () => 1.234m.InWords());
+
+        Assert.Equal("amount", exception.ParamName);
+    }
+
+    [Fact]
+    public void InWords_LongMinValue_ThrowsFromInWords()
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(
+            () => long.MinValue.InWords());
+
+        Assert.Equal("amount", exception.ParamName);
+    }
+
+    [Theory]
+    [InlineData("1000000000000")]
+    [InlineData("-1000000000000")]
+    public void InWords_JustAboveMaxAmount_ReportsCallerValueWithSign(string amount)
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(
+            () => Parse(amount).InWords());
+
+        Assert.Equal("amount", exception.ParamName);
+        Assert.Equal(Parse(amount), exception.ActualValue);
+    }
+
+    [Theory]
+    [InlineData("0")]
+    [InlineData("1.230")]
+    [InlineData("999999999999.99")]
+    [InlineData("-999999999999.99")]
+    public void InWords_ValidAmount_StringInterpolationDoesNotThrow(string amount)
+    {
+        var words = Parse(amount).InWords().AsBgn().WithSubunitsAsDigits().Abbreviated().Capitalized();
+
+        var exception = Record.Exception(() => $"{words}");
+
+        Assert.Null(exception);
+    }
+
     private static decimal Parse(string value)
         => decimal.Parse(value, CultureInfo.InvariantCulture);
 }

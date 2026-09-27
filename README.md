@@ -87,10 +87,11 @@ throws `ArgumentNullException`, and an empty, whitespace-only or padded value th
 
 ## Behavior
 
-- **At most 2 decimal places.** `1.234m.InWords().ToString()` throws `ArgumentException`.
+- **At most 2 decimal places.** `1.234m.InWords()` throws `ArgumentException`.
   Rounding money is the caller's decision, so the library never rounds silently. `1.230m` is
   accepted.
-- **Range:** ±999 999 999 999.99. Outside it, `ToString()` throws `ArgumentOutOfRangeException`.
+- **Range:** ±999 999 999 999.99. Outside it, `InWords()` throws `ArgumentOutOfRangeException`.
+  Invalid amounts fail in `InWords()`, where you pass them in, so `ToString()` never throws.
 - **Negative amounts** are prefixed with "минус".
 - **Zero subunits are omitted:** `5m` → "пет евро", not "пет евро и нула цента".
 - **No currency conversion.** The library writes amounts; converting BGN to EUR

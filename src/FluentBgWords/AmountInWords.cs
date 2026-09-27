@@ -11,7 +11,7 @@ public readonly record struct AmountInWords
 {
     internal AmountInWords(decimal amount)
     {
-        this.Amount = amount;
+        this.Amount = AmountToWords.Validate(amount);
         this.SelectedCurrency = Currency.Eur;
     }
 
@@ -85,8 +85,10 @@ public readonly record struct AmountInWords
         };
 
     /// <summary>Returns the amount written in Bulgarian words.</summary>
-    /// <exception cref="ArgumentException">The amount has more than 2 decimal places.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">The amount is outside the supported range.</exception>
+    /// <remarks>
+    /// This method does not throw: the amount is validated when the builder is created by
+    /// <see cref="AmountWordsExtensions.InWords(decimal)"/>.
+    /// </remarks>
     public override string ToString()
     {
         var text = AmountToWords.Convert(
