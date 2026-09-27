@@ -31,12 +31,13 @@ public class FluentApiTests
             167.42m.InWords().AsBgn().WithSubunitsAsDigits().Capitalized().ToString());
 
     [Fact]
-    public void Builder_IsImmutable()
+    public void Builder_BranchedFromPartialConfiguration_KeepsBranchesIndependent()
     {
-        var bgn = 5m.InWords().AsBgn();
-        _ = bgn.Capitalized();
+        var bgn = 5.42m.InWords().AsBgn();
 
-        Assert.Equal("пет лева", bgn.ToString());
+        Assert.Equal("пет лв. и четиридесет и две ст.", bgn.Abbreviated().ToString());
+        Assert.Equal("Пет лева и четиридесет и две стотинки", bgn.Capitalized().ToString());
+        Assert.Equal("пет лева и четиридесет и две стотинки", bgn.ToString());
     }
 
     [Fact]
@@ -48,6 +49,17 @@ public class FluentApiTests
         Assert.Equal(explicitEuro, implicitEuro);
         Assert.True(implicitEuro == explicitEuro);
         Assert.Equal(explicitEuro.GetHashCode(), implicitEuro.GetHashCode());
+    }
+
+    [Fact]
+    public void Equality_SameTextDifferentSettings_AreNotEqual()
+    {
+        var plain = 5m.InWords();
+        var digits = 5m.InWords().WithSubunitsAsDigits();
+
+        Assert.Equal(plain.ToString(), digits.ToString());
+        Assert.NotEqual(plain, digits);
+        Assert.True(plain != digits);
     }
 
     [Fact]

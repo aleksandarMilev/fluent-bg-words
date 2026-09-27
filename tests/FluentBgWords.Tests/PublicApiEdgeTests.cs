@@ -8,7 +8,7 @@ public class PublicApiEdgeTests
     public void As_Null_ThrowsArgumentNullException()
     {
         var exception = Assert.Throws<ArgumentNullException>(
-            static () => 5m.InWords().As(null!).ToString());
+            static () => 5m.InWords().As(null!));
 
         Assert.Equal("currency", exception.ParamName);
     }
@@ -26,11 +26,6 @@ public class PublicApiEdgeTests
             int.MaxValue.InWords().ToString());
 
     [Fact]
-    public void InWords_LongMinValue_Throws()
-        => Assert.Throws<ArgumentOutOfRangeException>(
-            static () => long.MinValue.InWords().ToString());
-
-    [Fact]
     public void InWords_LongMaxValue_Throws()
         => Assert.Throws<ArgumentOutOfRangeException>(
             static () => long.MaxValue.InWords().ToString());
@@ -46,13 +41,6 @@ public class PublicApiEdgeTests
         => Assert.Equal(
             "минус деветстотин деветдесет и девет милиарда деветстотин деветдесет и девет милиона деветстотин деветдесет и девет хиляди деветстотин деветдесет и девет лева и деветдесет и девет стотинки",
             (-999_999_999_999.99m).InWords().AsBgn().ToString());
-
-    [Theory]
-    [InlineData("1000000000000")]
-    [InlineData("-1000000000000")]
-    public void InWords_JustAboveMaxAmount_Throws(string amount)
-        => Assert.Throws<ArgumentOutOfRangeException>(
-            () => Parse(amount).InWords().ToString());
 
     [Fact]
     public void InWords_DecimalMaxValue_Throws()
@@ -149,6 +137,22 @@ public class PublicApiEdgeTests
 
         Assert.Equal("amount", exception.ParamName);
         Assert.Equal(Parse(amount), exception.ActualValue);
+    }
+
+    [Fact]
+    public void InWords_LongMaxAmount_WritesWords()
+        => Assert.Equal(
+            "деветстотин деветдесет и девет милиарда деветстотин деветдесет и девет милиона деветстотин деветдесет и девет хиляди деветстотин деветдесет и девет евро",
+            999_999_999_999L.InWords().ToString());
+
+    [Fact]
+    public void InWords_LongJustAboveMax_ReportsDecimalActualValue()
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(
+            static () => 1_000_000_000_000L.InWords());
+
+        Assert.Equal("amount", exception.ParamName);
+        Assert.Equal(1_000_000_000_000m, exception.ActualValue);
     }
 
     [Theory]

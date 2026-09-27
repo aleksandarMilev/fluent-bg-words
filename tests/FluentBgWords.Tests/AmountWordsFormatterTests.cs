@@ -7,7 +7,14 @@ public class AmountWordsFormatterTests
     // The amounts and currency codes of FormatMatrixTests, plus zero and a two-digit subunit.
     private static readonly string[] Amounts = ["1.01", "-2.02", "-0.05", "0", "21.21"];
 
-    private static readonly string[] Currencies = ["EUR", "EUR_CENTS", "BGN"];
+    // SEK is the custom currency of CustomCurrencyValidationTests.As_ValidCustomCurrency_WritesAmount.
+    private static readonly string[] Currencies = ["EUR", "EUR_CENTS", "BGN", "SEK"];
+
+    private static readonly CurrencyDefinition Sek = new(
+        new CurrencyUnit("крона", "крони", GrammaticalGender.Feminine),
+        new CurrencyUnit("йоре", "йоре", GrammaticalGender.Neuter),
+        "кр.",
+        "й.");
 
     public static TheoryData<string, string, bool, bool, bool> FormatMatrix()
     {
@@ -172,7 +179,8 @@ public class AmountWordsFormatterTests
     [Fact]
     public void Format_ThroughInterface_WritesSameText()
     {
-        var formatter = new AmountWordsFormatter(new AmountWordsOptions
+        // The explicit interface type is the point of this test: keep it, don't change it to var.
+        IAmountWordsFormatter formatter = new AmountWordsFormatter(new AmountWordsOptions
         {
             Currency = CurrencyDefinition.Bgn,
         });
@@ -191,6 +199,7 @@ public class AmountWordsFormatterTests
             "EUR" => CurrencyDefinition.Eur,
             "EUR_CENTS" => CurrencyDefinition.EurWithEurocents,
             "BGN" => CurrencyDefinition.Bgn,
+            "SEK" => Sek,
             _ => throw new ArgumentOutOfRangeException(
                 nameof(code),
                 code,
