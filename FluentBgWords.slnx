@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/FluentBgWords.DependencyInjection/FluentBgWords.DependencyInjection.csproj" />
     <Project Path="src/FluentBgWords/FluentBgWords.csproj" />
   </Folder>
   <Folder Name="/tests/">
