@@ -43,6 +43,12 @@ If you call `InWords()` and `ToString()` in the same expression, such as
   way as `InWords()`. The options are copied when the formatter is created, so the formatter is
   immutable and thread-safe and can be shared, for example as a singleton behind the
   `IAmountWordsFormatter` interface.
+- A new package, `FluentBgWords.DependencyInjection`, for ASP.NET Core and other apps that use
+  `Microsoft.Extensions.DependencyInjection`. `services.AddFluentBgWords(options => ...)`
+  configures the formatter once, in code, and registers `IAmountWordsFormatter` as a singleton
+  that you can inject anywhere. The options are read once, when the formatter is created, and a
+  `null` currency fails when the app starts. The package is released with the same version as
+  `FluentBgWords` and works with .NET 8 and later.
 
 ### Fixed
 
