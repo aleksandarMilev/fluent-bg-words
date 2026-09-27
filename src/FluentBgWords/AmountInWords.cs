@@ -10,6 +10,8 @@ using FluentBgWords.Internals;
 /// <remarks>
 /// Create instances with <see cref="AmountInWordsExtensions.InWords(decimal)"/>.
 /// <c>default(AmountInWords)</c> is a zero amount in euro and writes "нула евро".
+/// Two instances are equal when they have the same amount and the same settings; equality
+/// doesn't compare the written text.
 /// </remarks>
 public readonly record struct AmountInWords
 {

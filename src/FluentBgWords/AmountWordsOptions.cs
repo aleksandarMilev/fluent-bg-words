@@ -2,7 +2,10 @@
 
 /// <summary>
 /// Settings for an <see cref="AmountWordsFormatter"/>: the currency and the formatting options.
-/// Mutable, so it works with the .NET options pattern and configuration binding.
+/// Mutable, so it works with the .NET options pattern
+/// (<c>services.Configure&lt;AmountWordsOptions&gt;(…)</c>). Set <see cref="Currency"/> in code:
+/// binding it from configuration by name (for example <c>"Bgn"</c>) is not supported, and such a
+/// value is ignored, so the currency stays euro.
 /// </summary>
 /// <remarks>
 /// <see cref="AmountWordsFormatter"/> copies these settings when it is created. Changing this object

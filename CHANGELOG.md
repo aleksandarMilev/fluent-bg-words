@@ -48,14 +48,16 @@ If you call `InWords()` and `ToString()` in the same expression, such as
 - A new package, `FluentBgWords.DependencyInjection`, for ASP.NET Core and other apps that use
   `Microsoft.Extensions.DependencyInjection`. `services.AddFluentBgWords(options => ...)`
   configures the formatter once, in code, and registers `IAmountWordsFormatter` as a singleton
-  that you can inject anywhere. The options are read once, when the formatter is created, and a
-  `null` currency fails when the app starts. The package is released with the same version as
-  `FluentBgWords` and works with .NET 8 and later.
+  that you can inject anywhere. The options are read once, when the formatter is created. A
+  `null` currency fails options validation when the app starts (in apps that use the .NET Generic
+  Host, such as ASP.NET Core), or otherwise when the formatter is first resolved. The package is
+  released with the same version as `FluentBgWords` and works with .NET 8 and later.
 
 ### Fixed
 
-- Builders that write the same text now compare equal: `5m.InWords() == 5m.InWords().AsEur()`
-  is `true`, and both have the same hash code. Before, they compared unequal.
+- `5m.InWords()` now equals `5m.InWords().AsEur()`, with the same hash code: a builder created
+  by `InWords()` has its currency set to euro. Before, they compared unequal. Equality compares
+  the amount and the settings, not the text.
 - An out-of-range amount's exception reports the value you passed, with its sign. For
   `-1 000 000 000 000`, `ActualValue` was `1000000000000`; it is now `-1000000000000`.
 
