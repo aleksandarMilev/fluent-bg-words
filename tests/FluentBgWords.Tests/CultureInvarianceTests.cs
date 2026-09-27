@@ -4,6 +4,7 @@ using System.Globalization;
 
 public class CultureInvarianceTests
 {
+    // Smoke test only: culture safety is enforced by the CA1304/CA1305 analyzers, which fail the build.
     [Theory]
     [InlineData("bg-BG")]
     [InlineData("en-US")]

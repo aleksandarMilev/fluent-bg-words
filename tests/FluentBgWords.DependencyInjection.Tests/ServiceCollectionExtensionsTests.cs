@@ -1,6 +1,7 @@
 ﻿namespace FluentBgWords.DependencyInjection.Tests;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
 public class ServiceCollectionExtensionsTests
@@ -105,6 +106,42 @@ public class ServiceCollectionExtensionsTests
 
         Assert.Equal(typeof(AmountWordsOptions), exception.OptionsType);
         Assert.Contains(NullCurrencyMessage, exception.Failures);
+    }
+
+    [Fact]
+    public async Task AddFluentBgWords_NullCurrencyInHost_FailsAtStartup()
+    {
+        var builder = Host.CreateApplicationBuilder();
+        builder.Services.AddFluentBgWords(static options => options.Currency = null!);
+
+        using var host = builder.Build();
+
+        var exception = await Assert.ThrowsAsync<OptionsValidationException>(
+            () => host.StartAsync(TestContext.Current.CancellationToken));
+
+        Assert.Equal(
+            NullCurrencyMessage,
+            Assert.Single(exception.Failures));
+    }
+
+    [Fact]
+    public void AddFluentBgWords_NamedOptionsWithNullCurrency_AreNotValidated()
+    {
+        var services = new ServiceCollection().AddFluentBgWords();
+        services.Configure<AmountWordsOptions>(
+            "x",
+            static options => options.Currency = null!);
+
+        using var provider = Build(services);
+
+        Assert.Null(provider
+            .GetRequiredService<IOptionsMonitor<AmountWordsOptions>>()
+            .Get("x")
+            .Currency);
+
+        Assert.Equal(
+            "пет евро",
+            provider.GetRequiredService<IAmountWordsFormatter>().Format(5m));
     }
 
     [Fact]
