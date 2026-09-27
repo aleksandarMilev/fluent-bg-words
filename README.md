@@ -136,7 +136,9 @@ public class InvoiceService(IAmountWordsFormatter formatter)
 `AddFluentBgWords()` is in the `Microsoft.Extensions.DependencyInjection` namespace, so it needs
 no extra `using`. Without a delegate, it uses the defaults: euro, no other options. The formatter
 is a singleton, and **the options are read once, when the formatter is created**: changing them
-later has no effect. A `null` `Currency` fails options validation when the app starts. See the
+later has no effect. A `null` `Currency` fails options validation when the app starts (in apps
+that use the .NET Generic Host, such as ASP.NET Core), or otherwise when the formatter is first
+resolved. See the
 [package README](https://github.com/aleksandarMilev/fluent-bg-words/blob/master/src/FluentBgWords.DependencyInjection/README.md)
 for details.
 
