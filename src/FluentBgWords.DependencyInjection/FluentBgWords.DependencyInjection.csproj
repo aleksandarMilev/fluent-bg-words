@@ -9,8 +9,8 @@
     <Description>Microsoft.Extensions.DependencyInjection integration for FluentBgWords: configure IAmountWordsFormatter once with AddFluentBgWords() and inject it to write monetary amounts in Bulgarian words (сума словом).</Description>
     <PackageTags>bulgarian;slovom;словом;amount-in-words;invoice;dependency-injection;aspnetcore</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <!-- No baseline: this package has never been published. -->
     <EnablePackageValidation>true</EnablePackageValidation>
+    <PackageValidationBaselineVersion>0.2.0</PackageValidationBaselineVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="\" />
