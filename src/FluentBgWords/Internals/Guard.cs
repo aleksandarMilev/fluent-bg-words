@@ -2,7 +2,7 @@
 
 internal static class Guard
 {
-    public static string AgainstLeadingOrTrailingWhitespace(
+    public static string AgainstBlankOrPadded(
         string value,
         string paramName)
     {

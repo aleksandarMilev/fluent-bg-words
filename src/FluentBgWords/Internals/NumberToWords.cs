@@ -26,21 +26,18 @@ internal static class NumberToWords
 
     private static readonly Scale[] Scales =
     [
-        // billions
         new(
             1_000_000_000,
             GrammaticalGender.Masculine,
             "милиард",
             "милиарда",
             OmitOne: false),
-        //millions
         new(
             1_000_000,
             GrammaticalGender.Masculine,
             "милион",
             "милиона",
             OmitOne: false),
-        // thousands
         new(
             1_000,
             GrammaticalGender.Feminine,
@@ -54,16 +51,11 @@ internal static class NumberToWords
         GrammaticalGender gender = GrammaticalGender.Masculine)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThan(number, MaxValue);
-        ArgumentOutOfRangeException.ThrowIfLessThan(number, -MaxValue);
+        ArgumentOutOfRangeException.ThrowIfNegative(number);
 
         if (number == 0)
         {
             return "нула";
-        }
-
-        if (number < 0)
-        {
-            return "минус " + Convert(-number, gender);
         }
 
         var groups = new List<Group>(4);
@@ -100,7 +92,7 @@ internal static class NumberToWords
         return BuildGroup(
             value,
             scale.Gender,
-            value == 1 ? scale.Singular : scale.Plural);
+            value == 1 ? scale.Singular : scale.CountForm);
     }
 
     private static Group BuildGroup(
@@ -176,12 +168,12 @@ internal static class NumberToWords
         for (var i = 0; i < groups.Count; i++)
         {
             var isLast = i == groups.Count - 1;
-            var shouldBeAdded =
-                isLast &&
-                groups.Count > 1
+            var insertAndBeforeLastGroup =
+                isLast
+                && groups.Count > 1
                 && groups[i].NumeralWordCount <= 1;
 
-            if (shouldBeAdded)
+            if (insertAndBeforeLastGroup)
             {
                 words.Add(And);
             }

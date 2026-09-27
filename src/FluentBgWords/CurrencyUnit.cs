@@ -17,12 +17,12 @@ public sealed record CurrencyUnit(
     GrammaticalGender Gender)
 {
     private readonly string singular
-        = Guard.AgainstLeadingOrTrailingWhitespace(
+        = Guard.AgainstBlankOrPadded(
             Singular,
             nameof(Singular));
 
     private readonly string countForm
-        = Guard.AgainstLeadingOrTrailingWhitespace(
+        = Guard.AgainstBlankOrPadded(
             CountForm,
             nameof(CountForm));
 
@@ -37,7 +37,7 @@ public sealed record CurrencyUnit(
     public string Singular
     {
         get => this.singular;
-        init => this.singular = Guard.AgainstLeadingOrTrailingWhitespace(
+        init => this.singular = Guard.AgainstBlankOrPadded(
             value,
             nameof(this.Singular));
     }
@@ -48,7 +48,7 @@ public sealed record CurrencyUnit(
     public string CountForm
     {
         get => this.countForm;
-        init => this.countForm = Guard.AgainstLeadingOrTrailingWhitespace(
+        init => this.countForm = Guard.AgainstBlankOrPadded(
             value,
             nameof(this.CountForm));
     }

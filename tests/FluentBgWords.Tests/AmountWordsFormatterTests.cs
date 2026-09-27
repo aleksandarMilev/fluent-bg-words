@@ -138,6 +138,9 @@ public class AmountWordsFormatterTests
             }));
 
         Assert.Equal("options", exception.ParamName);
+        Assert.Equal(
+            "AmountWordsOptions.Currency must not be null. Set it to a CurrencyDefinition, such as CurrencyDefinition.Eur. (Parameter 'options')",
+            exception.Message);
     }
 
     [Theory]

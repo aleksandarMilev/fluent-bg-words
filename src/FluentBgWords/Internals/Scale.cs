@@ -6,5 +6,5 @@ internal sealed record Scale(
     long Divisor,
     GrammaticalGender Gender,
     string Singular,
-    string Plural,
+    string CountForm,
     bool OmitOne);
