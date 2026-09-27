@@ -10,7 +10,7 @@
     <PackageTags>bulgarian;slovom;словом;number-to-words;amount-in-words;invoice;euro;leva</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <EnablePackageValidation Condition="'$(Version.StartsWith(`0.0.0-`))' != 'true'">true</EnablePackageValidation>
-    <PackageValidationBaselineVersion>0.1.2</PackageValidationBaselineVersion>
+    <PackageValidationBaselineVersion>0.2.0</PackageValidationBaselineVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
