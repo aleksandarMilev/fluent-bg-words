@@ -7,6 +7,10 @@ using FluentBgWords.Internals;
 /// returns a new instance, so a partially configured amount can be branched safely.
 /// Call <see cref="ToString"/> to get the text.
 /// </summary>
+/// <remarks>
+/// Create instances with <see cref="AmountInWordsExtensions.InWords(decimal)"/>.
+/// <c>default(AmountInWords)</c> is a zero amount in euro and writes "нула евро".
+/// </remarks>
 public readonly record struct AmountInWords
 {
     internal AmountInWords(decimal amount)

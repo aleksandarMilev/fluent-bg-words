@@ -7,6 +7,50 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **BREAKING: renamed public types.** `Gender`, `Unit` and `Currency` are now `GrammaticalGender`,
+  `CurrencyUnit` and `CurrencyDefinition`, and the `AmountWordsExtensions` class is now
+  `AmountInWordsExtensions`. The old names clashed with types that many applications and
+  libraries already have (for example MediatR's `Unit`, or an app's own `Gender` or `Currency`),
+  which caused "ambiguous reference" errors (CS0104), especially with global usings. Member names
+  are unchanged: `CurrencyDefinition.Bgn`, `CurrencyUnit.Gender` and all fluent methods work as
+  before. Code that only calls `InWords()` and the fluent methods compiles without changes.
+- **BREAKING: invalid amounts now throw from `InWords()` instead of `ToString()`.** An amount
+  with more than 2 decimal places throws `ArgumentException`, and an amount outside
+  ±999 999 999 999.99 throws `ArgumentOutOfRangeException`, as before, but now where the amount
+  is passed in. The error points at the code with the bad value, and `ToString()` never throws,
+  so string interpolation, logging and the debugger can always show a builder.
+
+Migrating from 0.1.x:
+
+| Before                                           | After                                                  |
+| ------------------------------------------------ | ------------------------------------------------------ |
+| `Gender`                                         | `GrammaticalGender`                                    |
+| `Unit`                                           | `CurrencyUnit`                                         |
+| `Currency`                                       | `CurrencyDefinition`                                   |
+| `AmountWordsExtensions`                          | `AmountInWordsExtensions`                              |
+| Invalid-amount exceptions caught at `ToString()` | Catch exceptions around `InWords()`, not `ToString()`  |
+
+If you call `InWords()` and `ToString()` in the same expression, such as
+`amount.InWords().AsBgn().ToString()`, a `try`/`catch` around that expression keeps working.
+
+### Added
+
+- `AmountWordsFormatter`, a reusable formatter: configure the currency and options once with
+  `AmountWordsOptions`, then write any number of amounts with `formatter.Format(amount)`. It
+  writes the same text as the fluent API with the same settings and validates amounts the same
+  way as `InWords()`. The options are copied when the formatter is created, so the formatter is
+  immutable and thread-safe and can be shared, for example as a singleton behind the
+  `IAmountWordsFormatter` interface.
+
+### Fixed
+
+- Builders that write the same text now compare equal: `5m.InWords() == 5m.InWords().AsEur()`
+  is `true`, and both have the same hash code. Before, they compared unequal.
+- An out-of-range amount's exception reports the value you passed, with its sign. For
+  `-1 000 000 000 000`, `ActualValue` was `1000000000000`; it is now `-1000000000000`.
+
 ## [0.1.2] - 2026-09-25
 
 ### Added

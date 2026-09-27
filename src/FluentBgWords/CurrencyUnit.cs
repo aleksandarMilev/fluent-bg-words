@@ -4,6 +4,9 @@ using FluentBgWords.Internals;
 
 /// <summary>
 /// A currency unit that follows the amount, e.g. "лев", "стотинка", "евро" or "цент".
+/// The values are validated on creation and in <see langword="with"/> expressions: both forms
+/// must be non-empty with no leading or trailing whitespace, and the gender must be a defined
+/// <see cref="GrammaticalGender"/> member.
 /// </summary>
 /// <param name="Singular">Form used for exactly one: "лев", "стотинка", "евро".</param>
 /// <param name="CountForm">Form used for any other amount, including 21, 101, etc.: "лева", "стотинки", "евро".</param>
