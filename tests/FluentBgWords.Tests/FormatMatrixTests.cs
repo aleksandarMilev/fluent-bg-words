@@ -5,7 +5,7 @@ using System.Globalization;
 public class FormatMatrixTests
 {
     // Spelled-out numerals next to abbreviations ("един ц.", "една ст.") pin current behavior.
-    // NEEDS NATIVE VERIFICATION, see CODE_REVIEW.md TEST-03.
+    //  NEEDS NATIVE VERIFICATION, see issue #7.
     [Theory]
     [InlineData("1.01", "EUR", false, true, true, "Едно е. и един ц.")]
     [InlineData("1.01", "EUR", true, true, true, "Едно е. и 1 ц.")]
