@@ -63,6 +63,10 @@ internal static class AmountToWords
             result += $" и {minorText} {minorUnit}";
         }
 
-        return prefix + result;
+        var text = prefix + result;
+
+        return format.Capitalized
+            ? char.ToUpperInvariant(text[0]) + text[1..]
+            : text;
     }
 }

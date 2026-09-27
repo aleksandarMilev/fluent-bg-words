@@ -12,38 +12,28 @@ public readonly record struct AmountInWords
     internal AmountInWords(decimal amount)
     {
         this.Amount = AmountToWords.Validate(amount);
-        this.SelectedCurrency = CurrencyDefinition.Eur;
+        this.Settings = new(
+            CurrencyDefinition.Eur,
+            default);
     }
 
     private decimal Amount { get; init; }
 
-    // Null only for default(AmountInWords), which bypasses the constructor; ToString() falls back to euro.
-    private CurrencyDefinition? SelectedCurrency { get; init; }
-
-    private AmountFormat Format { get; init; }
-
-    private bool IsCapitalized { get; init; }
+    // Settings.Currency is null only for default(AmountInWords), which bypasses the constructor;
+    // it is then written in euro.
+    private AmountWordsSettings Settings { get; init; }
 
     /// <summary>Writes the amount in Bulgarian leva (BGN): "два лева и една стотинка".</summary>
     public AmountInWords AsBgn()
-        => this with
-        {
-            SelectedCurrency = CurrencyDefinition.Bgn
-        };
+        => this.WithCurrency(CurrencyDefinition.Bgn);
 
     /// <summary>Writes the amount in euro (EUR): "две евро и един цент". This is the default.</summary>
     public AmountInWords AsEur()
-        => this with
-        {
-            SelectedCurrency = CurrencyDefinition.Eur
-        };
+        => this.WithCurrency(CurrencyDefinition.Eur);
 
     /// <summary>Writes the amount in euro with "евроцент" as the subunit: "пет евро и два евроцента".</summary>
     public AmountInWords AsEurWithEurocents()
-        => this with
-        {
-            SelectedCurrency = CurrencyDefinition.EurWithEurocents
-        };
+        => this.WithCurrency(CurrencyDefinition.EurWithEurocents);
 
     /// <summary>Writes the amount in a custom currency.</summary>
     /// <param name="currency">The currency to use.</param>
@@ -51,38 +41,29 @@ public readonly record struct AmountInWords
     public AmountInWords As(CurrencyDefinition currency)
     {
         ArgumentNullException.ThrowIfNull(currency);
-        return this with
-        {
-            SelectedCurrency = currency
-        };
+        return this.WithCurrency(currency);
     }
 
     /// <summary>Writes the subunits as digits: "пет лева и 42 стотинки".</summary>
     public AmountInWords WithSubunitsAsDigits()
-        => this with
+        => this.WithFormat(this.Settings.Format with
         {
-            Format = this.Format with
-            {
-                SubunitsAsDigits = true
-            }
-        };
+            SubunitsAsDigits = true
+        });
 
     /// <summary>Capitalizes the first letter: "Пет лева".</summary>
     public AmountInWords Capitalized()
-        => this with
+        => this.WithFormat(this.Settings.Format with
         {
-            IsCapitalized = true
-        };
+            Capitalized = true
+        });
 
     /// <summary>Uses the currency abbreviations: "пет лв. и четиридесет и две ст.".</summary>
     public AmountInWords Abbreviated()
-        => this with
+        => this.WithFormat(this.Settings.Format with
         {
-            Format = this.Format with
-            {
-                Abbreviated = true
-            }
-        };
+            Abbreviated = true
+        });
 
     /// <summary>Returns the amount written in Bulgarian words.</summary>
     /// <remarks>
@@ -90,13 +71,23 @@ public readonly record struct AmountInWords
     /// <see cref="AmountInWordsExtensions.InWords(decimal)"/>.
     /// </remarks>
     public override string ToString()
-    {
-        var text = AmountToWords.Convert(
-            this.Amount,
-            this.SelectedCurrency ?? CurrencyDefinition.Eur, this.Format);
+        => this.Settings.Write(this.Amount);
 
-        return this.IsCapitalized
-            ? char.ToUpperInvariant(text[0]) + text[1..]
-            : text;
-    }
+    private AmountInWords WithCurrency(CurrencyDefinition currency)
+        => this with
+        {
+            Settings = this.Settings with
+            {
+                Currency = currency
+            }
+        };
+
+    private AmountInWords WithFormat(AmountFormat format)
+        => this with
+        {
+            Settings = this.Settings with
+            {
+                Format = format
+            }
+        };
 }

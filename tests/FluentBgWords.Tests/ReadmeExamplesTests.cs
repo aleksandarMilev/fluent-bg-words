@@ -64,6 +64,22 @@ public class ReadmeExamplesTests
             amount?.InWords().AsBgn().ToString());
     }
 
+    // README: "Reusable formatter"
+    [Fact]
+    public void AmountWordsFormatter_ReadmeExample_WritesInvoiceFormat()
+    {
+        var formatter = new AmountWordsFormatter(new AmountWordsOptions
+        {
+            Currency = CurrencyDefinition.Bgn,
+            SubunitsAsDigits = true,
+            Abbreviated = true,
+            Capitalized = true,
+        });
+
+        Assert.Equal("Сто шестдесет и седем лв. и 42 ст.", formatter.Format(167.42m));
+        Assert.Equal("Пет лв.", formatter.Format(5m));
+    }
+
     // README: "API" table, Capitalized() row
     [Fact]
     public void Capitalized_ApiTableExample_UppercasesFirstLetter()
