@@ -8,7 +8,6 @@ internal readonly record struct AmountWordsSettings(
     CurrencyDefinition? Currency,
     AmountFormat Format)
 {
-    // Currency is null only in default(AmountInWords), which bypasses its constructor.
     public string Write(decimal amount)
         => AmountToWords.Convert(
             amount,

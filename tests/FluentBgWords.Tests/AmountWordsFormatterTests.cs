@@ -172,7 +172,7 @@ public class AmountWordsFormatterTests
     [Fact]
     public void Format_ThroughInterface_WritesSameText()
     {
-        IAmountWordsFormatter formatter = new AmountWordsFormatter(new AmountWordsOptions
+        var formatter = new AmountWordsFormatter(new AmountWordsOptions
         {
             Currency = CurrencyDefinition.Bgn,
         });

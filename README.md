@@ -179,7 +179,8 @@ Currency terms and abbreviations follow:
   "е.", "ц.", "е.ц.", "ст."
 
 Found a case that reads wrong? [Open an issue](https://github.com/aleksandarMilev/fluent-bg-words/issues)
-with the amount, the output, and the correct form.
+with the amount, the output, and the correct form. To send a fix yourself, see the
+[contribution guidelines](https://github.com/aleksandarMilev/fluent-bg-words/blob/master/CONTRIBUTING.md).
 
 ## License
 
